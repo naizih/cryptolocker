@@ -23,6 +23,8 @@ Vue.component('page-accueil', require('./components/Accueil.vue').default);
 //form pour ajouter le chemin
 Vue.component('FileUploadForm', require('./components/FileUploadForm.vue').default);
 
+//composant pour affichage de table dans le page accueil 
+Vue.component('table-component', require('./components/AccueilTable.vue').default);
 
 //import accueil from './components/accueil.vue';
 

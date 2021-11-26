@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//importer le controleur
+use App\Http\Controllers\HashFileModelController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+// on peut utiliser cette methode pour recuperer les donnée 	
+//Route::get('table-fichier', [HashFileModelController::class, 'api_datashow']);

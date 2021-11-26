@@ -10,6 +10,6 @@ class Hash_File_Model extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'Chemin_de_fichier', 'Hash_de_fichier'
+        'Chemin_de_fichier', 'Hash_de_fichier', 'nom_de_fichier'
     ];
 }

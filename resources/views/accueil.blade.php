@@ -13,11 +13,24 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 <body>
     <section id="page-accueil">
+
+    <div id="app">
+      <table-component> </table-component>
+      <hr>
+      <page-accueil></page-accueil>
+    </div>
+
+
+
+
+
+
+
+
 
         <h1>Bienvenue à la Page d'Accueil - Client </h1>
         <hr>
@@ -26,47 +39,62 @@
   <thead>
     <tr>
       <th scope="col">N°</th>
+      <th scope="col">Nom de fichier</th>
       <th scope="col">Chemin</th>
       <th scope="col">Hash</th>
       <th scope="col">Date de creation</th>
+      <th>Supprimer</th>
     </tr>
   </thead>
   <tbody>
-    @foreach($fichier_hash ?? '' as $hash)
+    @foreach($table_fichier_hash ?? '' as $ligne)
     <tr>
-        <td> {{$hash->id}}</td>
-        <td> {{$hash->Chemin_de_fichier}} </td>
-        <td> {{$hash->Hash_de_fichier}} </td>
-        <td>{{$hash->created_at}}</td>
+        <td> {{$ligne->id}}</td>
+        <td> {{$ligne->nom_de_fichier}}</td>
+        <td> {{$ligne->Chemin_de_fichier}} </td>
+        <td> {{$ligne->Hash_de_fichier}} </td>
+        <td>{{$ligne->created_at}}</td>
+        <td>
+          <form action="/suppri/{{$ligne->id}}" method="post">
+            @method('DELETE')
+            @csrf
+          <div>
+            <!--<input type="checkbox" id="delete" name="delete[]" value="{{$ligne->id}}">-->
+            <input type="submit" value="Delete">
+          </div>
+          <div>
+          </form>
+        </td>
     </tr>
     @endforeach
   </tbody>
 </table>
+
 <hr>
 <h4>Upload a File</h4>
 
 <form action="/fichier-appat" method="post" enctype="multipart/form-data">
   @csrf
   <div class="mb-3">
+    <label for="chemin" class="form-label">Copie la Chemin de fichier</label>
+    <input class="form-control" type="text" id="chemin" name="chemin">
+  </div>
+  <div class="mb-3">
     <label for="formFile" class="form-label">Choisir un fichier appat</label>
     <input class="form-control" type="file" id="formFile" name="fichier">
   </div>
-  <input type="submit" value="Ajouter" class="btn btn-success">
-  <input type="hidden" id="file-content">
+  <input type="submit" value="Ajouter" class="btn btn-primary">
 </form>
 
 <hr>
-<h4>Start Vue js App</h4>
 
 
-        <div id="app">            
-            <page-accueil></page-accueil>
-        </div>
+
 
         
-        <script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 
-    </section>
+</section>
    
 <script>
 

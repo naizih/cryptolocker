@@ -24,6 +24,14 @@ Route::get('/', [HashFileModelController::class, 'index']);
 
 Route::post('/fichier-appat', [HashFileModelController::class, 'store']);
 
+// dans laravel pour supprimer on utilise le methode delete mais ici j'ai utiliser le methode post 
+Route::post('/supprimer/{id}', [HashFileModelController::class, 'destroy']);
+Route::delete('/suppri/{id}', [HashFileModelController::class, 'destroy']);
+
+
+//try in place of api
+Route::get('/table-fichier',[HashFileModelController::class, 'api_datashow']);
+
 
 
 /*
