@@ -18,10 +18,11 @@ window.Vue = require('vue').default;
 
 Vue.component('page-accueil', require('./components/Accueil.vue').default);
 
-Vue.component('test', require('./components/test_try.vue').default);
 
 
-Vue.component('ajouterchemin-modal', require('./modal/AjouterChemin.vue').default);
+//form pour ajouter le chemin
+Vue.component('FileUploadForm', require('./components/FileUploadForm.vue').default);
+
 
 //import accueil from './components/accueil.vue';
 

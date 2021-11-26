@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AppatFileControlleur;
+use App\Http\Controllers\HashFileModelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +14,15 @@ use App\Http\Controllers\AppatFileControlleur;
 |
 */
 
+/*
 Route::get('/', function () {
     return view('accueil');
 });
+*/
 
+Route::get('/', [HashFileModelController::class, 'index']);
 
-Route::post('/fichier-appat', [AppatFileControlleur::class, 'index']);
-
+Route::post('/fichier-appat', [HashFileModelController::class, 'store']);
 
 
 

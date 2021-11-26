@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\AppatFileModel;
 use Illuminate\Http\Request;
 
 class AppatFileControlleur extends Controller
+
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,12 @@ class AppatFileControlleur extends Controller
     public function index(Request $request)
     {
         //
-        dd($request);
+        //dd($request);
+
+        //recuperie tous les données de la base de donnée que se trouve dans la table 
+        $data = AppatFileModel::all();
+        return view('accueil', ['fichier_hash' => $data]);
+        
     }
 
     /**

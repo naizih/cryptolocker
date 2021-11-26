@@ -2,62 +2,50 @@
 
 
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
 
-                    <div class="card-body">
-                        I'm an example component.
-
-                        
-                        <hr>
-
-                            <button v-on:click="verify_connection" class="btn btn-success">Verification</button>
-
-                            <button class="btn btn-danger">Supprimer</button>
-
-                            <button class="btn btn-success">Checker</button>
-
-<br><br>
+    
+    <div class="container">        
+        <div class="card">
+            <div class="card-header">Operation</div>
+            <div class="card-body">
+            
+                <modale v-bind:revele="revele" v-bind:toggleModale="toggleModale"> </modale>
+                <div v-on:click="toggleModale" class="btn btn-success">Ajouter le fichier</div>
+        
+                <button class="btn btn-danger">Supprimer</button>
+                <button class="btn btn-success">Checker</button>
+                <button v-on:click="verify_connection" class="btn btn-success">Verification</button>
+<!--
                             <form action="/fichier-appat" method="post">
+
                                 <label for="fichierappat" class="btn btn-secondary">Ajouter</label>
                                 <input type="file" style="visibility:hidden;" name="fichierappat" id="fichierappat">
+                                <p></p>
+                                <button class="btn btn-secondary"> submit </button>
                             </form>
-
-                        <button v-on:click="submitFile()">Submit</button>
-
-
-
-
-
-
+-->
 
 <!--add a pop up windows -->
 
 
 
-
-
-
-
-
-
-
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
+    </div>  
 </template>
 
 <script>
+    import Modale from './Modale'
     export default {
+        name: 'Contenu',
+        components: {
+            'modale': Modale
+        },
 
         data() {
             return{
                 result: {},
+                revele: false
             }
         },
         created() {
@@ -72,6 +60,11 @@
                 }else{
                     alert("Not connected")
                 }
+            },
+
+            toggleModale: function() {
+                this.revele = !this.revele
+
             }
                
         },
