@@ -4,16 +4,18 @@
 <template>
 
     <div class="container">  
-        <div class="card">
-            <div class="card-header">Operation</div>
+        <h1 class="pt-4">Bienvenue à la Page d'Accueil - Client en Vue.js</h1>
+        
+        <hashes-verificaion> </hashes-verificaion>
+        
+        <div class="card flex-item">
             <div class="card-body">
-            
+                <accueil-table> </accueil-table>
+
+            <!--
                 <modale v-bind:revele="revele" v-bind:toggleModale="toggleModale"> </modale>
                 <div v-on:click="toggleModale" class="btn btn-success">Ajouter le fichier</div>
-        
-                <button class="btn btn-danger">Supprimer</button>
-                <button class="btn btn-success">Checker</button>
-                <button v-on:click="verify_connection" class="btn btn-success">Verification</button>
+            -->
 <!--
                             <form action="/fichier-appat" method="post">
 
@@ -25,20 +27,27 @@
 -->
 
 <!--add a pop up windows -->
-
-
+                    
 
             </div>
         </div>
+        <page-footer> </page-footer>
     </div>  
 </template>
 
 <script>
-    import Modale from './Modale'
+    //import Modale from './Modale'
+    import accueiltable from './AccueilTable.vue'
+    import footer from './Footer.vue'
+    import infiniteLoop from './sync_hash_verify.vue'
+
     export default {
         name: 'Contenu',
         components: {
-            'modale': Modale
+            //'modale': Modale,
+            'accueil-table': accueiltable,
+            'page-footer': footer,
+            'hashes-verificaion': infiniteLoop,
         },
 
         data() {
@@ -48,19 +57,9 @@
             }
         },
         created() {
-            axios.get("http://192.168.141.207:8000/api/connexion")
-                .then(response => {this.result = response.data})
-                .catch(error => console.log(error))
+           
         },
         methods: {
-            verify_connection: function(){
-                if(this.result.etat == "connected"){
-                    this.$alert(this.result.etat)
-                }else{
-                    alert("Not connected")
-                }
-            },
-
             toggleModale: function() {
                 this.revele = !this.revele
 
@@ -69,8 +68,15 @@
         },
 
         mounted() {
-            console.log('Component mounted.')
+            console.log('Accueil Component mounted.')
         }
 
     }
 </script>
+
+
+
+<style scoped>
+
+
+</style>
