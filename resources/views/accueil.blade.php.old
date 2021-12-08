@@ -1,0 +1,114 @@
+
+@extends('template')
+
+
+
+
+
+
+
+@section('content')
+<section id="page-accueil">
+
+    <div id="app">
+      <!-- import la page AccueilTable -->
+      <!--<table-component> </table-component>-->
+      
+      <!-- utiliser la table accueil-->
+      <page-accueil></page-accueil>
+
+    </div>
+
+
+        
+
+<!--
+        <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">N°</th>
+      <th scope="col">Nom de fichier</th>
+      <th scope="col">Chemin</th>
+      <th scope="col">Hash</th>
+      <th scope="col">Date de creation</th>
+      <th>Supprimer</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach($table_fichier_hash ?? '' as $ligne)
+    <tr>
+        <td> {{$ligne->id}}</td>
+        <td> {{$ligne->nom_de_fichier}}</td>
+        <td> {{$ligne->Chemin_de_fichier}} </td>
+        <td> {{$ligne->Hash_de_fichier}} </td>
+        <td>{{$ligne->created_at}}</td>
+        <td>
+          <form action="/suppri/{{$ligne->id}}" method="post">
+            @method('DELETE')
+            @csrf
+          <div>
+            <!--<input type="checkbox" id="delete" name="delete[]" value="{{$ligne->id}}">->
+            <input type="submit" value="Delete">
+          </div>
+          <div>
+          </form>
+        </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+-->
+
+
+<!--
+<h4>Upload a File</h4>
+
+<form action="/fichier-appat" method="post" enctype="multipart/form-data">
+  @csrf
+  <div class="mb-3">
+    <label for="chemin" class="form-label">Copie la Chemin de fichier</label>
+    <input class="form-control" type="text" id="chemin" name="chemin">
+  </div>
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Choisir un fichier appat</label>
+    <input class="form-control" type="file" id="formFile" name="fichier">
+  </div>
+  <input type="submit" value="Ajouter" class="btn btn-primary">
+</form>
+<hr>
+-->
+
+</section>
+@endsection
+
+
+
+
+@section('script')
+
+<script>
+
+function readSingleFile(e) {
+  var file = e.target.files[0];
+  if (!file) {
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var contents = e.target.result;
+    // Display file content
+    displayContents(contents);
+  };
+  reader.readAsText(file);
+}
+ 
+function displayContents(contents) {
+  var element = document.getElementById('file-content');
+  element.innerHTML = contents;
+}
+ 
+document.getElementById('fichier').addEventListener('change', readSingleFile, false);
+
+</script>
+
+@endsection

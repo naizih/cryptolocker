@@ -1,0 +1,502 @@
+<template>
+    <div class="accueiltable">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <!-- columns de checkbow avec un option de selectioner tous.-->
+                    <!--<th width="30%">
+                        <input type="checkbox" @click="select_all_via_check_box" v-model="all_select"> 
+                        <span> {{ all_select == true ? 'Uncheck All' : "Select All" }} </span>
+                    </th> -->
+                    <th scope="col">N°</th>
+                    <th scope="col">Nom de fichier</th>
+                    <th scope="col">Chemin</th>
+                    <th scope="col">Hash</th>
+                    <th scope="col">Date de creation</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="hash_fichier, index of list_fichier">
+                    
+                    <!-- checkbox pour supprimer pleusieur fichier en meme temps.-->
+                    <!-- <td> <input type="checkbox" id="checkbox" v-bind:value="hash_fichier.id" v-model="checked_box"> </td> -->
+                    <td>{{index+1}} / {{hash_fichier.id}}</td>
+                    <td>{{hash_fichier.nom_de_fichier}}</td>
+                    <td>{{hash_fichier.Chemin_de_fichier}}</td>
+                    <td>{{hash_fichier.Hash_de_fichier}}</td>
+                    <td>{{hash_fichier.created_at}}</td>
+                    <td>
+                        <button class="btn btn-lg" v-on:click="supprimer_une_ligne(hash_fichier.id)"><span class="fa fa-trash-o"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- tous les button en fin de la table pour checker, supprimer et ajouter un chemin -->
+        <div class="btn-toolbar">
+            <div class="btn-group me-1">
+                <ajouter-fichier v-bind:revele="revele" v-bind:toggleModale="toggleModale"> </ajouter-fichier>
+                <div v-on:click="toggleModale" class="btn btn-primary">Ajouter le fichier</div>
+            </div>
+            <div class="btn-group me-1">
+                <form submit="supprime_HashFichier({hash_fichier.id})">
+                    <input type="submit" value="Supprimer" class="btn btn-danger">
+                </form>
+            </div>
+            <div class="btn-group me-1">
+                <verification-de-connexion> </verification-de-connexion>
+            </div>
+            <div class="btn-group me-2">
+                <button class="btn btn-secondary">Checker</button>
+            </div>
+        </div>
+
+
+
+        </div>
+
+
+
+</template>
+
+<script>
+import Modale from './Modale'
+import verification from './verification_de_connexion.vue'
+export default{
+    name: 'Contenu',
+        components: {
+            'ajouter-fichier': Modale,
+            'verification-de-connexion': verification 
+    },
+    data() {
+        return {
+            list_fichier : {},  //un dictionaire pour ajouter tous les données qui sont recuperer de la base de donnéés.
+            //checked_box: [],  // un tableu pour sauvgarder (ajouter) tous les box qui sont selecter.
+            //all_select : false,
+            id: [],
+            response: '',
+            revele: false
+        }
+    },
+    methods: {
+        toggleModale: function() {
+            this.revele = !this.revele
+        },
+
+        supprimer_une_ligne(id) {
+            if (confirm('Etes vous sue de supprimer ?')){
+                axios.delete('/supprimer/'+ id)
+                    .then( response => {
+                        console.log(response)
+                        
+                    })
+            }else{
+
+            }
+        },
+
+        //importer les donées depuis la base de données.
+        getHashFiles() {
+            axios.get('http://192.168.56.200:8000/table-fichier')
+                .then(response => {this.list_fichier = response.data.fichiers_hash})
+                .catch(error => { console.log(error)});
+        },
+        
+        // fonction pour supprimer une ligne dans la base de données .
+        //ça march 
+        supprime_HashFichier(id) {
+            axios.delete(`/suppri/${id}`)
+                .then((response)=>{ console.log('record has been deleted!')})
+                .catch(error => { console.log(error)});
+                
+
+
+            /*
+            axios.post('/supprimer/${id}')
+                .then((response) => { 
+                    this.getHashFiles();
+                    this.checked_box = []
+                    this.all_select == true ? 
+                            this.all_select = false : this.all_select = true;
+            })
+            */
+        },
+        //fonction qui donne vrai quand on selectione tous les lignes
+        select_all_via_check_box(){
+            if(this.all_select == false){
+                this.all_select = true
+                this.list_fichier.forEach(user => {
+                    this.checked_box.push(user.id)
+                });
+            }else{
+                this.all_select = false
+                this.checked_box = []
+            }
+        },
+
+    },
+    /*
+    methods: {
+        BoxChecked(id){
+            if(id in this.checked_box){
+                this.checked_box.splice(id);
+            }else{
+                this.checked_box.push(id);
+            }
+        }
+    },
+    */
+
+    //crée
+    created() {
+        this.getHashFiles();
+    },
+
+    // fonction par default dans la vue.js, qui donne linformation quand la page s'actuallise
+    mounted() {
+        console.log('acuueil table  mounted.')
+    }
+}
+</script>
+
+
+
+<style scoped>
+
+.accueiltable{
+    z-index: 1;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<template>
+    <div class="accueiltable">
+                <!-- tous les button en fin de la table pour checker, supprimer et ajouter un chemin -->
+        <div class="alert alert-success" v-if="check_success">
+            {{check_success}}
+        </div>
+        <div class="btn-toolbar">
+            <div class="btn-group me-1">
+                <ajouter-fichier v-bind:revele="revele" v-bind:toggleModale="toggleModale"> </ajouter-fichier>
+                <div v-on:click="toggleModale" class="btn btn-primary">Ajouter le fichier</div>
+            </div>
+            <!--<div class="btn-group me-1">
+                <form submit="supprime_HashFichier({hash_fichier.id})">
+                    <input type="submit" value="Supprimer" class="btn btn-danger">
+                </form>
+            </div>-->
+            <div class="btn-group me-1">
+                <verification-de-connexion> </verification-de-connexion>
+            </div>
+            <div class="btn-group me-2">
+                <button class="btn btn-secondary" v-on:click="checker">Checker</button>
+            </div>
+
+<!--
+            <div v-if="resultat_check != '' ">
+                <div v-for="res in resultat_check" :key="res">
+                        <button class="btn alert-danger" v-on:click="show_alert">Alert</button>
+                </div>
+            </div>
+-->         
+<!--   
+            <div v-if="resultat_check == '' && resultat_check_array_empty">
+                <p>Aucune fichier a été modifiée</p>
+            </div>
+-->
+            
+
+<!--
+            <div v-if="resultat_check.length">
+                <button class="btn alert-danger" v-on:click="show_alert">Alert</button>
+            </div>
+-->
+        </div>
+
+
+        <table class="table table-striped">
+            <!--
+            <div v-if="resultat_check != '' ">
+                <ul v-for="res in resultat_check" :key="res">
+                    <li v-if="res == 'OK' "  class="alert alert-success">
+                        {{res}}
+                    </li>
+                    <li v-else class="alert alert-danger">
+                        
+                    </li>
+                </ul>
+            </div>
+            -->
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col">N°</th>
+                    <th scope="col">Nom de fichier</th>
+                    <th scope="col">Chemin</th>
+                    <th scope="col">Hash</th>
+                    <th scope="col">Date de creation</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody >
+                <!--<tr v-for="hash_fichier, index of list_fichier" :key="hash_fichier.id" v-bind:class="{'alert-danger': available}">-->
+                <tr v-for="hash_fichier, index of list_fichier" :key="hash_fichier.id">
+                    <td> <input type="checkbox" id="checkbox" v-bind:value="hash_fichier.id" v-model="checked_box"> </td> 
+                    <td>{{index+1}}</td>
+                    <td>{{hash_fichier.nom_de_fichier}}</td>
+                    <td>{{hash_fichier.Chemin_de_fichier}}</td>
+                    <!--<td v-bind:class="{ 'text-danger' : color }">{{hash_fichier.Hash_de_fichier}}</td>-->
+                    <td>{{hash_fichier.Hash_de_fichier}}</td>
+                    <td>{{hash_fichier.created_at}}</td>
+                    <td><button class="btn btn-lg btn-danger" v-on:click="supprimer_une_ligne(hash_fichier.id)"><i class="fa fa-trash-o red-color"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</template>
+
+
+
+
+
+<script>
+import Modale from './Modale'
+import verification from './verification_de_connexion.vue'
+export default{
+    name: 'Contenu',
+        components: {
+            'ajouter-fichier': Modale,
+            'verification-de-connexion': verification 
+    },
+    data() {
+        return {
+            list_fichier : {},  //un dictionaire pour ajouter tous les données qui sont recuperer de la base de donnéés.
+            checked_box: [],  // un tableu pour sauvgarder (ajouter) tous les box qui sont selecter.
+            //all_select : false,
+            id: [],
+            response: '',
+            revele: false,
+            delete: '',
+            resultat_check: [],     //variable pour afficher le rsultat de button check
+            // pas besoin maintenant checkbox_check: [],     // checkbox pour afficher graphiquement le fonctionement de check si la fichier n'eset pas changer checkbox avec color vert sinon rouge.
+            available: true,
+
+            //resultat_check_array_empty : false,     // variable pour verifié si array resultat_check est vide ou pas. si vide afficher le message "aucune fichier a été modifé".
+            check_success: '',      //variable pour retourner le resultat de check si il n'y a aucune modificaion
+
+            //check_button_alert : false,     // variable pour savoir si on recu un alert oou pas
+
+            //color: false,
+
+        }
+    },
+    methods: {
+        toggleModale: function() {
+            this.revele = !this.revele
+            this.$forceUpdate();  
+        },
+
+
+/*        show_alert() {
+            for (let index = 0; index < this.resultat_check.length; index++) {
+                if (this.resultat_check[index] != 'OK'){
+                    alert("hash de fichier suivant est modifié" + this.resultat_check[index]);
+                }
+            }
+        },
+*/
+        
+        checkebox_color(){
+
+            let currentObj = this;
+            var longeur = this.list_fichier.length;  // variable pour recuperer la longeur de tableau.
+            for(var i = 0; i < longeur; i++){
+                this.available = true;
+                //if(this.resultat_check[i] == 'OK'){
+                 //   console.log(this.resultat_check[i]);
+                //}
+            }
+
+        },
+
+
+
+        //checker
+        checker(){
+            //console.log(this.list_fichier[0].Chemin_de_fichier)
+
+            var longeur = this.list_fichier.length;  // variable pour recuperer la longeur de tableau.
+
+            var lien_de_fichiers = [];  //variable pour stoker le lien de tous les fichier.
+            var nom_de_fichier  = [];
+            var id = [];
+            let currentObj = this;
+
+            for(var i = 0; i < longeur; i++){
+                var identifiant = this.list_fichier[i].id;
+                var chemin = this.list_fichier[i].Chemin_de_fichier;
+                var name = this.list_fichier[i].nom_de_fichier;
+
+                id.push(identifiant);
+                nom_de_fichier.push(name);
+                lien_de_fichiers.push(chemin+'/'+name)
+                //console.log(chemin+'/'+nom_de_fichier)
+            }
+
+            //console.log(lien_de_fichiers);
+
+
+            let fd = new FormData();
+            fd.append('id', id);
+            fd.append('name', nom_de_fichier);  
+            fd.append('path', lien_de_fichiers);
+
+
+
+
+            //  Methode POST
+            axios.post('/check', fd)
+            .then( response =>{
+                //console.log(response.data);
+                currentObj.resultat_check = response.data.hash_result;     //  associer les donnée à variable success. 
+                //this.check_button_alert = true;
+
+                //verification si il n'y a pas un erreur de hash
+                if (this.resultat_check == ''){
+                   this.check_success = 'Aucune fichier a été modifiée'
+                }else{
+                    for (let index = 0; index < this.resultat_check.length; index++) {
+                        // je n'ai pas besoin un condition pour verifié 
+                        //if (this.resultat_check[index] != 'OK'){
+                            alert("hash de fichier suivant est modifié" + this.resultat_check[index]);
+                    }
+                }
+            })
+            .catch( error => {  //  condition si il y a eu un erreur
+                currentObj.errors = error;
+            })
+
+            
+
+/*
+            let currentObj = this;
+
+            let fd = new FormData();    
+            fd.append('file', this.fichier);    // Ajouter une entree dans le tableau fd la key c'est file et value c'est la variable fichier qui est declaré dans data(). 
+            fd.append('path', this.path);       // Ajouter une entree file path le tableau fd
+            
+            //  Methode POST
+            axios.post('/ajouter-nouveau-fichier', fd)
+            .then( response =>{ 
+                //console.log(response);
+                currentObj.success = response.data      //  associer les donnée à variable success. 
+            })
+            .catch( error => {  //  condition si il y a eu un erreur
+                currentObj.errors = error;
+            })*/
+        },
+        
+        //supprimer une ligne de la table
+        supprimer_une_ligne(id) {
+            if (confirm('Etes vous sue de supprimer ?')){
+                axios.delete('/supprimer/'+ id)
+                    .then( response => { 
+                        this.delete = response.data 
+                        window.location.reload();
+                    })
+                    .catch( error => {
+                        console.log(error)
+                    });
+            }
+        },
+
+        //importer les donées depuis la base de données.
+        getHashFiles() {
+            axios.get('http://192.168.56.200:8000/table-fichier')
+                .then(response => {this.list_fichier = response.data.fichiers_hash})
+                .catch(error => { console.log(error)});
+        },
+        
+        // fonction pour supprimer une ligne dans la base de données .
+        //ça march 
+        supprime_HashFichier(id) {
+            axios.delete(`/suppri/${id}`)
+                .then((response)=>{ console.log('record has been deleted!')})
+                .catch(error => { console.log(error)});
+                
+
+
+            /*
+            axios.post('/supprimer/${id}')
+                .then((response) => { 
+                    this.getHashFiles();
+                    this.checked_box = []
+                    this.all_select == true ? 
+                            this.all_select = false : this.all_select = true;
+            })
+            */
+        },
+        //fonction qui donne vrai quand on selectione tous les lignes
+        select_all_via_check_box(){
+            if(this.all_select == false){
+                this.all_select = true
+                this.list_fichier.forEach(user => {
+                    this.checked_box.push(user.id)
+                });
+            }else{
+                this.all_select = false
+                this.checked_box = []
+            }
+        },
+
+    },
+    /*
+    methods: {
+        BoxChecked(id){
+            if(id in this.checked_box){
+                this.checked_box.splice(id);
+            }else{
+                this.checked_box.push(id);
+            }
+        }
+    },
+    */
+
+    //crée
+    created() {
+        this.getHashFiles();
+        //this.checkebox_color();
+    },
+
+    // fonction par default dans la vue.js, qui donne linformation quand la page s'actuallise
+    mounted() {
+        console.log('acuueil table  mounted.')
+    }
+}
+</script>
+
+
+
+<style scoped>
+
+.accueiltable{
+    z-index: 1;
+}
+</style>

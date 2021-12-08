@@ -10,6 +10,7 @@ window.Vue = require('vue').default;
 
 
 
+
 // ajouter ce ligne pour model popup
 
 
@@ -17,12 +18,13 @@ window.Vue = require('vue').default;
 
 
 Vue.component('page-accueil', require('./components/Accueil.vue').default);
-
+Vue.component('page-footer', require('./components/Footer.vue').default);
+Vue.component('hashes-verificaion', require('./components/sync_hash_verify.vue').default);
 
 
 //form pour ajouter le chemin
 Vue.component('FileUploadForm', require('./components/FileUploadForm.vue').default);
-
+Vue.component('FileUploadForm', require('./components/FileUploadForm.vue').default);
 //composant pour affichage de table dans le page accueil 
 Vue.component('table-component', require('./components/AccueilTable.vue').default);
 
@@ -40,6 +42,7 @@ Vue.component('table-component', require('./components/AccueilTable.vue').defaul
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
 
 
 /**

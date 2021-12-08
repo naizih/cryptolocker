@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HashFileModelController;
+use App\Http\Controllers\ClientInformationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +23,42 @@ Route::get('/', function () {
 
 Route::get('/', [HashFileModelController::class, 'index']);
 
-Route::post('/fichier-appat', [HashFileModelController::class, 'store']);
+
+//Route pour reouperier tous le donnée en format json.
+Route::get('/table-fichier',[HashFileModelController::class, 'api_datashow']);
+
+
+//Route::post('/fichier-appat', [HashFileModelController::class, 'storeX']);
+Route::post('/ajouter-nouveau-fichier', [HashFileModelController::class, 'store']);
+
+Route::post('/ajouter-client', [ClientInformationController::class, 'store']);
+
+
+//Route::post('/bash', function(){ });
+Route::get('/bash', function() {
+    return response()->json(['success' => 'la fichier est ajouter avec succces.']);
+});
+Route::get('/bash1', [Kernel::class, 'schedule']);
+
+
+
+
+
+
+//Route pour checker un fichier
+Route::post('/check', [HashFileModelController::class, 'check']);
+
 
 // dans laravel pour supprimer on utilise le methode delete mais ici j'ai utiliser le methode post 
-Route::post('/supprimer/{id}', [HashFileModelController::class, 'destroy']);
-Route::delete('/suppri/{id}', [HashFileModelController::class, 'destroy']);
+Route::delete('/supprimer/{id}', [HashFileModelController::class, 'destroy']);
+//Route::post('/supprimer/{id}', [HashFileModelController::class, 'destroy']);
+Route::delete('supprimer_multiple', [HashFileModelController::class, 'destroy_multiple']);
+
+//pour supprimer une seule ligne.
+//Route::delete('/suppri/{id}', [HashFileModelController::class, 'destroy']);
 
 
-//try in place of api
-Route::get('/table-fichier',[HashFileModelController::class, 'api_datashow']);
+
 
 
 
