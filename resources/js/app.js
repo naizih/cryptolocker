@@ -1,0 +1,56 @@
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+require('./bootstrap');
+
+window.Vue = require('vue').default;
+
+
+
+
+// ajouter ce ligne pour model popup
+
+
+
+
+
+Vue.component('page-accueil', require('./components/Accueil.vue').default);
+Vue.component('page-footer', require('./components/Footer.vue').default);
+Vue.component('hashes-verificaion', require('./components/sync_hash_verify.vue').default);
+
+
+//form pour ajouter le chemin
+//Vue.component('FileUploadForm', require('./components/FileUploadForm.vue').default);
+
+//composant pour affichage de table dans le page accueil 
+//Vue.component('accueil-table', require('./components/AccueilTable.vue').default);
+
+//import accueil from './components/accueil.vue';
+
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+
+
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+
+const app = new Vue({
+    el: '#app',
+});
