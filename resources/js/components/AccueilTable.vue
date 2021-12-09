@@ -168,7 +168,7 @@ export default{
 
         //importer les donées depuis la base de données.
         getResult() {
-            axios.get('http://192.168.56.200:8000/table-fichier')
+            axios.get('/table-fichier')
                 .then(response => {this.list_fichier = response.data.fichiers_hash})
                 .catch(error => { console.log(error)});
         },

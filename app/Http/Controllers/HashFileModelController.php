@@ -27,9 +27,11 @@ class HashFileModelController extends Controller
         //recuperie tous les données de la base de donnée que se trouve dans la table 
         //$data = Hash_File_Model::all();
         //return view('accueil', ['table_fichier_hash' => $data]);
+
+        $data = Hash_File_Model::all();
         
         $info_client = Client_information::all();
-        return view('accueil', ['information_client' => $info_client]);
+        return view('accueil', ['information_client' => $info_client, 'table_fichier_hash' => $data]);
 
         //boucle infini pour tester les hashe de fichier
         //$data = Hash_File_Model::select('nom_de_fichier')->get();
@@ -56,6 +58,31 @@ class HashFileModelController extends Controller
     }
 
 
+    public function store_laravel(Request $request){
+ 
+        //validation de données avant le sauvgarder.
+        request()->validate([
+            'chemin' => 'required',
+            'fichier' => 'required',
+        ]);
+
+        // GET les information des input
+        $file = $request->file('fichier');
+        $contents = $file->get('originalName');
+        $hash = md5($contents);
+        $file_name = $request->fichier->getClientOriginalName();
+
+        //saugrader les données dans le sqlite3
+        Hash_File_Model::create([
+            'nom_de_fichier' => $file_name,
+            'Chemin_de_fichier' => request('chemin'),
+            'Hash_de_fichier' => $hash,
+        ]);
+        
+        return redirect('/');       //retourber vers la page de index.
+
+        //script pour valider la hash de fichier appat tous les 3 Min.
+    }
 
 
     // sauvgarder les donées de la formulaire ajouter un nouveau fichier .
@@ -65,7 +92,7 @@ class HashFileModelController extends Controller
             $file_name = $file->getClientOriginalName();    //le nom original de la fichier
             $contents = $file->get('originalName');     //contenu de fichier.
             $hash = md5($contents);     //changer le contenu de fichier en format hash, j'ai utilisé 
-            $path = $request->path;     // données de input chemin_de_fichier
+            $path = $request->path;     // recuperier à partir de données d'input chemin_de_fichier
         }
 
         Hash_File_Model::create([
@@ -118,18 +145,33 @@ class HashFileModelController extends Controller
         $array_length = count($paths_array);        // nombre de fichier 
         $hash_result = [];      // variable pour sauvgarder temporairement le resultat de comparaison de hash. 
 
+
+        
+        //
+        $user = "projm1_21";
+        $pass= "5IwEc39Y8h9T";
+
+        exec('net use "\\\\192.168.176.2\projetm12021" /user:"'.$user .'" "'.$pass.'" /persistent:no');
+        $dir = '\\192.168.176.2\projetm12021';
+        $files = scandir($dir);
+        dd($files);
+
+
+
+
+        /*
         // boucle for pour comparer tous les ligne de la tables.
         for ($index = 0; $index < $array_length; $index++) {
             $hash = md5_file($paths_array[$index]);         // hash de fichier sauvgarder.
 
             $row_database = Hash_File_Model::find($ids_array[$index]);      //variable pour trouver la ligne coresspondance 
             $hash_database = $row_database->Hash_de_fichier;            // trouver le hash de la ligne correspondace
-
             if ($hash != $hash_database){
                 array_push($hash_result, "\r\n File name : ".$row_database->nom_de_fichier . " => Nouveau Hash :" .$hash);   
             }
         }
         return response()->json(['hash_result' => $hash_result]);
+        */
     }
 
 
@@ -172,7 +214,13 @@ class HashFileModelController extends Controller
         //
     }
 
+    //fonction pour supprimer un ligne de tableau afficher dans laravel
+    public function destroy_laravel(Hash_File_Model $id) {
+        $id->delete();
+        return redirect('/');
+    }
 
+    // fonction pour supprimer un ligne de tableau, requet recu de vue.js
     public function destroy(Hash_File_Model $id) {
         $id->delete();
         return response()->json(['response' => 'le ligne est supprimer avec success']);

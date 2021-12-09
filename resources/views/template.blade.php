@@ -23,10 +23,8 @@
 
     
     <footer class="container pt-1">
-
-    @yield('footer')
+    @yield('footer')  
     @yield('script')
-
     </footer>
   </body>
 </html>

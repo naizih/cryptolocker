@@ -35,6 +35,13 @@ return [
             'root' => storage_path('app'),
         ],
 
+        /*'nas' => [
+            'driver' => 'nas',
+            'key' => 'projm1_21',
+            'secret' => '5IwEc39Y8h9T',
+            'url' => 'http://192.168.176.2:5000/',
+        ],*/
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('/home/user/Drive/Home/Desktop'),

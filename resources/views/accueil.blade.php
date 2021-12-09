@@ -1,13 +1,76 @@
 @extends('template')
 
 @section('content')
-<section>
+<section style="min-height: 40vh" class="container">
   <div id="app">
     <!-- utiliser la table accueil-->
     <page-accueil></page-accueil>
   </div>
+
+
+
+<div class="card p-4 my-2">
+  <h4 class="display-8">Tableau</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">N°</th>
+        <th scope="col">Nom de fichier</th>
+        <th scope="col">Chemin</th>
+        <th scope="col">Hash</th>
+        <th scope="col">Date de creation</th>
+        <th>Supprimer</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if(isset($table_fichier_hash))
+      @foreach($table_fichier_hash ?? '' as $index => $ligne )
+      <tr>
+          <td> {{$index+1}}</td>
+          <td> {{$ligne->nom_de_fichier}}</td>
+          <td> {{$ligne->Chemin_de_fichier}} </td>
+          <td> {{$ligne->Hash_de_fichier}} </td>
+          <td>{{$ligne->created_at}}</td>
+          <td>
+            <form action="/delete/{{$ligne->id}}" method="post">
+              @method('DELETE')
+              @csrf
+              <div>
+                <input type="submit" value="Delete">
+              </div>
+            </form>
+          </td>
+      </tr>
+      @endforeach
+      @endif
+    </tbody>
+  </table>
+</div>
+
+  <!-- Formulaire ajouter fichier appat-->
+<div class="card p-4 my-2">
+<h4 class="display-8">Upload a File</h4>
+<hr class="my-4">
+<form action="/fichier-appat" method="post" enctype="multipart/form-data">
+  @csrf
+  <div class="mb-3">
+    <label for="chemin" class="form-label">Copie la Chemin de fichier</label>
+    <input class="form-control" type="text" id="chemin" name="chemin">
+  </div>
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Choisir un fichier appat</label>
+    <input class="form-control" type="file" id="formFile" name="fichier">
+  </div>
+  <input type="submit" value="Ajouter" class="btn btn-primary">
+</form>
+</div>
+<!-- Fin de Formulaire d'ajouter un nouveau fichier-->
+
+
+
 </section>
 @endsection
+
 
 
 @section('footer')

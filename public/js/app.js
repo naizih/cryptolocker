@@ -2317,7 +2317,7 @@ __webpack_require__.r(__webpack_exports__);
     getResult: function getResult() {
       var _this3 = this;
 
-      axios.get('http://192.168.56.200:8000/table-fichier').then(function (response) {
+      axios.get('/table-fichier').then(function (response) {
         _this3.list_fichier = response.data.fichiers_hash;
       })["catch"](function (error) {
         console.log(error);

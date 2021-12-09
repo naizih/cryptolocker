@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 */
 
-Route::get('/', [HashFileModelController::class, 'index']);
+
 
 // Route pour afficher l'info de client à modifier.
 Route::get('/modifier_client/{client_information}/modifier', [ClientInformationController::class, 'edit']);
@@ -44,6 +44,13 @@ Route::get('/bash', function() {
 });
 Route::get('/bash1', [Kernel::class, 'schedule']);
 
+
+
+
+//Tous les routes qui viens de laravel, pas de vuejs.
+Route::get('/', [HashFileModelController::class, 'index']);
+Route::post('/fichier-appat', [HashFileModelController::class, 'store_laravel']);
+Route::delete('/delete/{id}', [HashFileModelController::class, 'destroy_laravel']);
 
 
 
