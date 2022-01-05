@@ -21,6 +21,8 @@ Vue.component('page-accueil', require('./components/Accueil.vue').default);
 Vue.component('page-footer', require('./components/Footer.vue').default);
 Vue.component('hashes-verificaion', require('./components/sync_hash_verify.vue').default);
 
+Vue.component('checkbox_test', require('./components/test_accueil_checkbox.vue').default);
+
 
 //form pour ajouter le chemin
 //Vue.component('FileUploadForm', require('./components/FileUploadForm.vue').default);

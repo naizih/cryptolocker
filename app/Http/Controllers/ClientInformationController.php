@@ -4,105 +4,111 @@ namespace App\Http\Controllers;
 
 use App\Models\Client_information;
 use Illuminate\Http\Request;
+use App\Models\info_serveur_mgmt;
+use Illuminate\Support\Facades\Session;
+
+use Illuminate\Support\Facades\Http;
+
+
 
 class ClientInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-        return view('pages.modifier_client');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
    
-    public function store(Request $request) {
+    // on retourne notre information vers la page config et dans le page config on include le code html de info_client
+    public function index() {
+        $info_client = Client_information::all();
+        return view('pages.config', ['information_client' => $info_client]);   
+
+    }
+
+    public function store(Request $request, Client_information $client ) {
         //
         $validator = $request->validate([
             'nom_entreprise' => 'required',
+            'site' => 'required',
             'nom_client' => 'required',
             'mobile' => 'string|min:8',
             'email' => 'required',
         ]);
 
 
-        Client_information::create([
-            'nom_entreprise' =>  request('nom_entreprise'),
-            'nom_client' => request('nom_client'),
-            'mobile' => request('mobile'),
-            'email' => request('email'),
+        $client->create([
+            'nom_entreprise' =>  $request->nom_entreprise,
+            'site' =>  $request->site,
+            'nom_client' => $request->nom_client,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
         ]);
 
-        return redirect('/');
+        //$server_ip = info_serveur_mgmt::first()->IP;
+        //$server_port = '81';
+        //dd($server_ip);
+
+        /*
+        $post = HTTP::post('192.168.141.174:81/api/update_client', [
+            'nom_entreprise' =>  $request->nom_entreprise,
+            'site' =>  $request->site,
+            'nom_client' => $request->nom_client,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+        ]);
+
+        //$post->send();
+
+        $response = $post->json();
+        return redirect('/config')->with('message', "Le client est ajouter avec success dans le serveur client ".$response['message']);
+        */
+        return redirect('/config')->with('message', "Le client est ajouter avec success!");
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Client_information  $client_information
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Client_information $client_information)
-    {
-        //
+
+    public function edit(Client_information $id) {
+        return view('pages.config.modifier_client', ['info_client' => $id]);
     }
 
-
-
-    public function edit(Client_information $client_information) {
-        return view('pages.modifier_client', ['info_client' => $client_information]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Client_information  $client_information
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, Client_information $client_information)
     {
         //validation de données
         $validator = $request->validate([
             'nom_entreprise' => 'required',
+            'site' => 'required',
             'nom_client' => 'required',
-            'mobile' => 'required',
+            'mobile' => 'required|min:10',
             'email' => 'required',
         ]);
 
         //mise à jour les données dans le base de donnée.
         $client_information->update([
-            'nom_entreprise' =>  request('nom_entreprise'),
-            'nom_client' => request('nom_client'),
-            'mobile' => request('mobile'),
-            'email' => request('email'),
+            'nom_entreprise' =>  $request->nom_entreprise,
+            'site' =>  $request->site,
+            'nom_client' => $request->nom_client,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
         ]);
 
-        return redirect('/');
+
+        // POST information de client au API/clietns si le client change les information. 
+
+        //$server_ip = info_serveur_mgmt::first()->IP;
+        //$server_port = '81';
+        //dd($server_ip);
+
+        /*
+        $post = HTTP::post('192.168.141.174:81/api/update_client', [
+            'nom_entreprise' =>  $request->nom_entreprise,
+            'site' =>  $request->site,
+            'nom_client' => $request->nom_client,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+        ]);
+
+        $response = $post->json();
+        return redirect('/config')->with('message', "Le client est mise à jour avec success dans le serveur client ".$response['message']);
+        */
+        return redirect('/config')->with('message', "Le client est mise à jour avec success!.");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Client_information  $client_information
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Client_information $client_information)
-    {
-        //
-    }
+
 }

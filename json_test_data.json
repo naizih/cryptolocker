@@ -1,0 +1,11 @@
+
+{
+    "info":{
+        "client_email":"ile-de-france@jaguar-network.com",
+        "file_name" :"appat.txt",
+        "file_path" : "/mnt/partage1/Drive_client",
+        "check_result" : "NOT OK",
+        "last_check" : "2021-12-17 15:29:02",
+        "alert" : "true"
+    }
+}

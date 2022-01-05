@@ -20,6 +20,9 @@ class HashFileModel extends Migration
             $table->string('nom_de_fichier');
             $table->string('Chemin_de_fichier');
             $table->string('Hash_de_fichier');
+            $table->string('resultat_de_check');
+            $table->string('date_du_dernier_check');
+            $table->string('Trois_check_not_ok');
             $table->timestamps();
             //pour aller plus loin on peur sauvgarder un copier de chaque fichier appat dans le serveur client
             //pour aller plus loin il faut sauvgarder nom_de_technicien, @IP, lien_de_fichier_dans_le_serveur, ....

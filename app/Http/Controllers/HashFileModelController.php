@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 
 use App\Models\Client_information;
+Use \Carbon\Carbon;
+
+
 
 
 
@@ -21,13 +24,8 @@ class HashFileModelController extends Controller
         return response()->json(['success' => 'la fichier est ajouter avec succces.']);
 
     }
-    public function index()
-    {
-        //
+    public function index() {
         //recuperie tous les données de la base de donnée que se trouve dans la table 
-        //$data = Hash_File_Model::all();
-        //return view('accueil', ['table_fichier_hash' => $data]);
-
         $data = Hash_File_Model::all();
         
         $info_client = Client_information::all();
@@ -36,8 +34,8 @@ class HashFileModelController extends Controller
         //boucle infini pour tester les hashe de fichier
         //$data = Hash_File_Model::select('nom_de_fichier')->get();
         //dd($data);
-
     }
+
 
     // fonction pour afficher tous les données de la base de données 
     public function api_datashow(){
@@ -50,175 +48,115 @@ class HashFileModelController extends Controller
     }
    
 
-     //Retourner un affichage avec form
-     //The create method should return a view with a form.
-    public function create()
-    {
-        //
+
+
+    public function select_file( Request $folder ){
+        $dir = '/mnt';
+
+        if(isset($_GET['file'])){ $dir = $dir.$_GET['file']; }
+       
+        function iter_file($dir){
+            $result = [];
+            if (is_dir($dir)) {
+                if ($dh = opendir($dir)) {
+                    while (($file = readdir($dh)) !== false) {
+                        if($file === '.' || $file === '..') { continue; }
+
+                        if(filetype($dir.'/'.$file) === 'file'){
+                            array_push($result, [ 'name' => $file, 'path' => $dir, 'filetype' => 'file']);
+                            //return $result;
+                        }
+                        if(filetype($dir.'/'.$file) !== 'file')
+                            array_push($result, [ 'name' => $file, 'path' => $dir, 'filetype' => 'dir']);
+                    }
+                    closedir($dh);
+                }
+                return $result;
+            }
+        }
+
+        $res = iter_file($dir);
+        return view('pages.ajouter_fichier_appat', ['files' => $res]);
     }
 
 
-    public function store_laravel(Request $request){
- 
-        //validation de données avant le sauvgarder.
-        request()->validate([
-            'chemin' => 'required',
-            'fichier' => 'required',
-        ]);
 
-        // GET les information des input
-        $file = $request->file('fichier');
-        $contents = $file->get('originalName');
-        $hash = md5($contents);
-        $file_name = $request->fichier->getClientOriginalName();
 
-        //saugrader les données dans le sqlite3
-        Hash_File_Model::create([
-            'nom_de_fichier' => $file_name,
-            'Chemin_de_fichier' => request('chemin'),
-            'Hash_de_fichier' => $hash,
-        ]);
-        
-        return redirect('/');       //retourber vers la page de index.
-
-        //script pour valider la hash de fichier appat tous les 3 Min.
+     //Retourner un affichage avec form
+     //The create method should return a view with a form.
+    public function create() {
+        //
     }
 
 
     // sauvgarder les donées de la formulaire ajouter un nouveau fichier .
     public function store(Request $request){
-        if ($request->hasFile('file')){
-            $file = $request->file('file');         // fichier qui est envoyé par client.
-            $file_name = $file->getClientOriginalName();    //le nom original de la fichier
-            $contents = $file->get('originalName');     //contenu de fichier.
-            $hash = md5($contents);     //changer le contenu de fichier en format hash, j'ai utilisé 
-            $path = $request->path;     // recuperier à partir de données d'input chemin_de_fichier
-        }
-
-        Hash_File_Model::create([
-            'nom_de_fichier' => $file_name,
-            'Chemin_de_fichier' => $path,
-            'Hash_de_fichier' => $hash,
-        ]);
-        
-        return response()->json(['success' => 'la fichier est ajouter avec succces.']);
-    }
-
-/*
-    //The store method should handle the form and create the entity and redirect.
-    public function store(Request $request) {
-        //validation de données avant le sauvgarder.
-        request()->validate([
-            'chemin' => 'required',
-            'fichier' => 'required',
-        ]);
-  
-        $file = $request->file('fichier');                              // variable pour recuperer  le fichier telecharger(upload) par utilisateur
-        $contents = $file->get('originalName');                         // variable pour recuperer les contenu de fichier upload par utilisateur
-        $hash = md5($contents);                                         // variable qui va contenir le hash du fichier 
-        $file_name = $request->fichier->getClientOriginalName();        //variable pour recuperer  le nom original de fichier
-
-        //saugrader les données dans le sqlite3
-        Hash_File_Model::create([
-            'nom_de_fichier' => $file_name,
-            'Chemin_de_fichier' => request('chemin'),
-            'Hash_de_fichier' => $hash,
-        ]);
-        
-        //retourber vers la page de index.
-        return redirect('/');
-
-        //script pour valider la hash de fichier appat tous les 3 Min.
-    }
-*/
-
-    //fonction pour checker les fichier
-    public function check(Request $request) {
-        //$names_string = $request->name;     //recevoir les noms de fichier dans le methode post, et le typed de données est string 
-        //$names_array = explode(",",$names_string);    // changer le type de donner en format tableau.
-        $paths_string = $request->path;     //lien de fichier en format de type 'string'. 
-        $paths_array = explode(',', $paths_string);     // lien absolute de fichier en form array.
-
-        $ids_string = $request->id;
-        $ids_array = explode(',', $ids_string);
        
-        $array_length = count($paths_array);        // nombre de fichier 
-        $hash_result = [];      // variable pour sauvgarder temporairement le resultat de comparaison de hash. 
+        //validation des données entrée 
+        request()->validate([
+            'chemin_de_fichier' => 'required',
+            'nom_de_fichier' => 'required',
+        ]);
 
-
+        $file = $request->chemin_de_fichier.'/'.$request->nom_de_fichier;       // chemin absolu vers le ficheir
+        $hash = md5_file($file);        // calculer le hash de fichier
         
-        //
-        $user = "projm1_21";
-        $pass= "5IwEc39Y8h9T";
+        Hash_File_Model::create([
+            'nom_de_fichier' => $request->nom_de_fichier,
+            'Chemin_de_fichier' => $request->chemin_de_fichier,
+            'Hash_de_fichier' => $hash,
+            'resultat_de_check' => 'OK',
+            'date_du_dernier_check' => Carbon::now()->toDateTimeString(),
+            'Trois_check_not_ok' => Carbon::now()->toDateTimeString(),
+        ]);
+        
+        return redirect('accueil');
+        //return response()->json(['success' => 'la fichier est ajouter avec succces.']);
+    }
 
-        exec('net use "\\\\192.168.176.2\projetm12021" /user:"'.$user .'" "'.$pass.'" /persistent:no');
-        $dir = '\\192.168.176.2\projetm12021';
-        $files = scandir($dir);
-        dd($files);
+    // function pour savoir l'action d'utilisateur et appeler à la fonction correspondance
+    public function check_supprimer(Request $request){
+         // valider les input
+        $request->validate([
+            'checkbox' => 'required',
+        ]);
 
-
-
-
-        /*
-        // boucle for pour comparer tous les ligne de la tables.
-        for ($index = 0; $index < $array_length; $index++) {
-            $hash = md5_file($paths_array[$index]);         // hash de fichier sauvgarder.
-
-            $row_database = Hash_File_Model::find($ids_array[$index]);      //variable pour trouver la ligne coresspondance 
-            $hash_database = $row_database->Hash_de_fichier;            // trouver le hash de la ligne correspondace
-            if ($hash != $hash_database){
-                array_push($hash_result, "\r\n File name : ".$row_database->nom_de_fichier . " => Nouveau Hash :" .$hash);   
-            }
+        if(isset($request->delete) && $request->delete == "supprimer" ){
+            HashFileModelController::destroy_multiple_laravel($request);
         }
-        return response()->json(['hash_result' => $hash_result]);
-        */
+        if(isset($request->check) && $request->check = "check"){
+            CheckController::check($request);
+        }
+        return redirect()->back();
     }
 
 
+    
 
 
+    // fonction pour supprimer pleusieur ligne, pure laravel (php)
+    public function destroy_multiple_laravel(Request $request){
+        //avant de supprimer on valide si utilisateur a bien selectioner la checkbox ou pas
+        $request->validate([
+            'checkbox' => 'required',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Hash_File_Model  $hash_File_Model
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Hash_File_Model $hash_File_Model)
-    {
-        //
+        $checkbox = $_POST['checkbox'];
+        
+        if(isset($_POST['delete']) && !empty($checkbox)){
+            $checkbox = $_POST['checkbox'];
+            $nb_delete_record = count($checkbox);
+            
+            for( $i=0; $i < $nb_delete_record; $i++ ){
+                $del_id = $checkbox[$i];
+                Hash_File_Model::where('id', $del_id)->delete();
+            }
+            //return redirect('/');
+        }
+        //return response("vous n'avez pas selectionée aucune ligne pour supprimer ! <br> Pour aller à l'accueil cliquer <a href='/'> ici .</a>");
+       // return redirect('/');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Hash_File_Model  $hash_File_Model
-     * @return \Illuminate\Http\Response
-     */
-    //The edit method should return a view with a form with data from the entity.
-    public function edit(Hash_File_Model $hash_File_Model)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Hash_File_Model  $hash_File_Model
-     * @return \Illuminate\Http\Response
-     */
-    //The update method should handle the form and update the entity and redirect.
-    public function update(Request $request, Hash_File_Model $hash_File_Model)
-    {
-        //
-    }
-
-    //fonction pour supprimer un ligne de tableau afficher dans laravel
-    public function destroy_laravel(Hash_File_Model $id) {
-        $id->delete();
-        return redirect('/');
-    }
 
     // fonction pour supprimer un ligne de tableau, requet recu de vue.js
     public function destroy(Hash_File_Model $id) {
@@ -239,5 +177,23 @@ class HashFileModelController extends Controller
         catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
+    }
+
+    public function show(Hash_File_Model $hash_File_Model)
+    {
+        //
+    }
+
+    //The edit method should return a view with a form with data from the entity.
+    public function edit(Hash_File_Model $hash_File_Model)
+    {
+        //
+    }
+
+
+    //The update method should handle the form and update the entity and redirect.
+    public function update(Request $request, Hash_File_Model $hash_File_Model)
+    {
+        //
     }
 }

@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Hash_File_Model extends Model
+class Temps_script extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'Chemin_de_fichier', 'Hash_de_fichier', 'nom_de_fichier', 'resultat_de_check', 'date_du_dernier_check', 'Trois_check_not_ok'
+        'temps_check', 'temps_envoie_server_mgmt'
     ];
 }
