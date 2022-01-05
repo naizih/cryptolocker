@@ -18,14 +18,19 @@ Use \Carbon\Carbon;
 
 class HashFileModelController extends Controller
 {
+
+
+    
     public function bash(Request $request) {
         //return Response::json(['response'=> $request]);
         //return redirect()->response()->js
         return response()->json(['success' => 'la fichier est ajouter avec succces.']);
 
     }
+    //recuperer tous les données du client que se trouvé dans la base de donnée
+
     public function index() {
-        //recuperie tous les données de la base de donnée que se trouve dans la table 
+         
         $data = Hash_File_Model::all();
         
         $info_client = Client_information::all();
@@ -51,7 +56,7 @@ class HashFileModelController extends Controller
 
 
     public function select_file( Request $folder ){
-        $dir = '/mnt';
+        $dir = '/mnt';      // l'endroit de montage de partage
 
         if(isset($_GET['file'])){ $dir = $dir.$_GET['file']; }
        

@@ -10,7 +10,14 @@
   </div>
   
     <div class="card p-4">
-    <h4 class="display-8"> Affichage de fichier Hash </h4>
+    <h4 class="display-8"> Affichage du fichier Hash </h4>
+
+    @if(Session::get('fail'))
+        <div class="alert alert-danger">
+            {{ Session::get('fail') }}
+        </div>
+    @endif
+
     @if ($errors->any())
     <div class="alert alert-danger">
       <ul>
@@ -46,12 +53,12 @@
       <thead class="table-primary text-capitalize text-center">
         <tr>
           <th scope="col">Select</th>
-          <th scope="col">Nom de fichier</th>
+          <th scope="col">Nom du fichier</th>
           <th scope="col">Chemin</th>
           <th scope="col">Hash</th>
           <th scope="col">Date de creation</th>
           <th scope="col">Date du dernier check</th>
-          <th scope="col">Resultat de check</th>
+          <th scope="col">Resultat du check</th>
           <th>Dernier check Not_Ok</th>
         </tr>
       </thead>

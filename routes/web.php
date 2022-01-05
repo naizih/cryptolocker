@@ -29,7 +29,7 @@ Route::get('/', function () {
 
 
 
-//Route pour reouperier tous le donnée en format json.
+//Route pour recuperer tous les données en format json.
 Route::get('/table-fichier',[HashFileModelController::class, 'api_datashow']);
 
 
@@ -40,14 +40,14 @@ Route::get('/table-fichier',[HashFileModelController::class, 'api_datashow']);
 
 //Route::post('/bash', function(){ });
 Route::get('/bash', function() {
-    return response()->json(['success' => 'la fichier est ajouter avec succces.']);
+    return response()->json(['success' => 'le fichier à été ajouté avec succès.']);
 });
 Route::get('/bash1', [Kernel::class, 'schedule']);
 
 
 
 
-//Tous les routes qui viens de laravel, pas de vuejs.
+//Tous les routes qui viens de laravel, pas de vue.js.
 Route::get('/', [HashFileModelController::class, 'index']);         // route vers la page accueil
 Route::get('accueil', [HashFileModelController::class, 'index']);   // route vers la page accueil
 //Route::post('/fichier-appat', [HashFileModelController::class, 'store_laravel']);       //sauvgardé le fichier 
@@ -59,35 +59,35 @@ Route::delete('supprimer_multiple_laravel', [HashFileModelController::class, 'de
 
 
 
-//Tous les requet viens du ou vers page config 
+//Tous les requets viens et qui part de la page config 
 Route::get('/connected', [ConfigController::class, 'verification_de_connexion']);       // verification de connexion
 
 
 
-// Route vers le controlleur Clientinformation
+// Route vers le controlleur qui a les informations du client "Clientinformation"
 Route::get('/config', [ClientInformationController::class, 'index']);           // 
-Route::get('/modifier_client/{id}/modifier', [ClientInformationController::class, 'edit']);     // Route pour afficher l'info de client à modifier.
-Route::PUT('/modifier_client/{client_information}', [ClientInformationController::class, 'update']);        //route pour modifier les information de client.
-Route::post('/ajouter-client', [ClientInformationController::class, 'store']);              // sauvgardé les info de client dans la base de données.
+Route::get('/modifier_client/{id}/modifier', [ClientInformationController::class, 'edit']);     // Route pour afficher l'info du client à modifier.
+Route::PUT('/modifier_client/{client_information}', [ClientInformationController::class, 'update']);        //route pour actualiser les informations du client.
+Route::post('/ajouter-client', [ClientInformationController::class, 'store']);              // sauvgarder les informations du client dans la base de données.
 
 
-// Route vers le controlleur info_serveur_mgmt
+// Route vers le controlleur inormations du serveur de management "info_serveur_mgmt"
 Route::get('/config/info_ser_mgmt', [info_serveur_mgmtController::class, 'index']);             //
-Route::get('/modifier_serveur_info/{id}/modifier', [info_serveur_mgmtController::class, 'edit']);     // Route pour afficher l'info de client à modifier.
-Route::post('/config/ajouter_info_serveur', [info_serveur_mgmtController::class, 'store']);              // sauvgardé les info de serveur dans la base de données.
-Route::PUT('/modifier_serveur_info/{info_serveur}', [info_serveur_mgmtController::class, 'update']); 
+Route::get('/modifier_serveur_info/{id}/modifier', [info_serveur_mgmtController::class, 'edit']);     // Route pour afficher les informations du serveur management.
+Route::post('/config/ajouter_info_serveur', [info_serveur_mgmtController::class, 'store']);              // Route pour sauvegarder les informations du serveur management dans la base de données.
+Route::PUT('/modifier_serveur_info/{info_serveur}', [info_serveur_mgmtController::class, 'update']);  ///route pour actualiser les informations du serveur management
 
 
-// Route vers le configuration de temps de script
+// Route vers la page de configuration du temps de check dans script
 Route::get('/config/variable_temps_script', [TempsScriptController::class, 'index']);           // afficher la page config.
-Route::get('/modifier_temps/{id}/modifier', [TempsScriptController::class, 'edit']);
-Route::post('/config/ajouter_temps_script', [TempsScriptController::class, 'store']); 
-Route::PUT('/update_temps/{temps}', [TempsScriptController::class, 'update']); 
+Route::get('/modifier_temps/{id}/modifier', [TempsScriptController::class, 'edit']);            //route pour changer le temps de check
+Route::post('/config/ajouter_temps_script', [TempsScriptController::class, 'store']);           //route pour sauvegarder la modification du temps
+Route::PUT('/update_temps/{temps}', [TempsScriptController::class, 'update']);                      //route pour actualiser le temps
 
 
 
 
-Route::get('/config/info_ser_partage', [ConfigController::class, 'server_partage']);
+Route::get('/config/info_ser_partage', [ConfigController::class, 'server_partage']);  //Route pour acceder le serveur de partage
 
 
 

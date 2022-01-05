@@ -18,13 +18,13 @@
             <a class="nav-link" href="/config"> Info Client <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/config/info_ser_mgmt">Info serveur Mgmt</a>
+                <a class="nav-link" href="/config/info_ser_mgmt">Info su serveur Mgmt</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/config/variable_temps_script">Script Time</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/config/info_ser_partage">Info serveur partage</a>
+                <a class="nav-link" href="/config/info_ser_partage">Info du serveur partage</a>
             </li>
         </ul>
     </div>
