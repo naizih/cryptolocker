@@ -33,18 +33,20 @@
 
     <div class="btn-toolbar p-3">
       <div class="btn-group me-1">
-        <a href="choisir_fichier_appat"  class="btn btn-primary">Ajouter le fichier</a>
+        <a href="choisir_fichier_appat"  class="btn btn-primary"> <i class="fa fa-folder-open"></i> Ajouter le fichier</a>
       </div>
 
       <!-- form Supprimer -->
       <form action="/check_supprimer" method="POST" id="form">
         @csrf
         <div class="btn-group me-1">
-          <input class="btn btn-danger" name="delete" type="submit" value="supprimer">
+          <button class="btn btn-danger" type="submit" name="delete" value="supprimer"> <i class="fa fa-trash"></i> supprimer </button>
+          <!-- <input class="btn btn-danger" name="delete" type="submit" value="supprimer"> -->
         </div>
         
         <div class="btn-group me-1">
-          <input class="btn btn-success" name="check" type="submit" value="check">
+          <button class="btn btn-success" type="submit" name="check" value="check"> <i class="fa fa-check"></i> Check </button>
+          <!-- <input class="btn btn-success" name="check" type="submit" value="check"> -->
         </div>
       </form>
     </div>  
