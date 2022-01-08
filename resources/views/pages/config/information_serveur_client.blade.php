@@ -1,31 +1,10 @@
 
 
-    @if(session::get('message'))
-    <div class="alert alert-success">
-        <p> {{session::get('message')}}</p>
-        
-    </div>
-    @elseif(session::get('error'))
-    <div class="alert alert-danger">
-        {{session::get('error')}}
-    </div>
-    @endif
-
-    <!-- Afficher les erreurs de validation-->
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
  <!-- information de client -->
  <div class="my-3">
         @if($information_client->count() > 0)
         @foreach($information_client as $info)
-        <h2 class="display-8">Information de Client</h2>
+        <h2 class="display-8">Information du Client</h2>
         <hr class="my-4">
         <div class="input_style">
         <div class="form-group row">

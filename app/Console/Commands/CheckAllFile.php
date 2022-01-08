@@ -82,12 +82,12 @@ class CheckAllFile extends Command
         $variable_temps = Temps_script::all()->first();     // GET Client email adresse
         $temps_check = $variable_temps->temps_check;
 
-        $data_hash_file = Hash_File_Model::select('date_du_dernier_check')->where('resultat_de_check', 'OK')->first();
-        $date_string = $data_hash_file->date_du_dernier_check;
+        ///$data_hash_file = Hash_File_Model::select('date_du_dernier_check')->where('resultat_de_check', 'OK')->first();
+        ///$date_string = $data_hash_file->date_du_dernier_check;
 
-        $change_string_date_to_date = carbon::parse($date_string);
+        ///$change_string_date_to_date = carbon::parse($date_string);
 
-        $newDateTime = $change_string_date_to_date->addMinutes(intval($temps_check));
+        ///$newDateTime = $change_string_date_to_date->addMinutes(intval($temps_check));
         
         //dd($newDateTime->toDateTimeString());
         //dd((carbon::now()->diffInMinutes($newDateTime)));

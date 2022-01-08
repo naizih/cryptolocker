@@ -51,11 +51,14 @@ class CheckSentToServer extends Command
     {
         $file_result = [];  // collection de resultat de check
         
-        $get_client_email = Client_information::select('email')->first();     // GET Client email adresse
+        //$get_client_email = Client_information::select('email')->first();     // GET Client email adresse
+        $client = Client_information::all()->first();
         $variable_temps = Temps_script::all()->first();     // GET Client email adresse
         $data = Hash_File_Model::all();
 
         $temps_check = $variable_temps->temps_check;        // GET temps pour envoyer un alert
+
+
 
         $ind = 0;
         // we send data if check result is good or not 
@@ -75,19 +78,22 @@ class CheckSentToServer extends Command
 
             $file_result[] = [
                 //information de client
-                'nom_entreprise' =>  request('nom_entreprise'),
-                'site' =>  request('site'),
-                'nom_client' => request('nom_client'),
-                'mobile' => request('mobile'),
-                'client_email' => $get_client_email->email,
+                'nom_entreprise' =>  $client->nom_entreprise,
+                'site' =>  $client->site,
+                'nom_client' => $client->nom_client,
+                'mobile' => $client->mobile,
+                'client_email' => $client->email,
                 
                 // information de fichier
                 'file_name' => $file->nom_de_fichier,
                 'file_path' => $file->Chemin_de_fichier,
                 'check_result' => $file->resultat_de_check,
                 'last_check' => $file->date_du_dernier_check,
-                'alert' => $alert,
+                'alert' => $alert
             ];
+
+
+            
         }
 
         

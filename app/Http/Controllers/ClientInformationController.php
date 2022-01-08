@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 class ClientInformationController extends Controller
 {
    
-    // on retourne notre information vers la page config et dans le page config on include le code html de info_client
+    // on retourne notre information vers la page de config et dans la page config, on inclue le code html dans l'info_client
     public function index() {
         $info_client = Client_information::all();
         return view('pages.config', ['information_client' => $info_client]);   
@@ -58,7 +58,7 @@ class ClientInformationController extends Controller
         $response = $post->json();
         return redirect('/config')->with('message', "Le client est ajouter avec success dans le serveur client ".$response['message']);
         */
-        return redirect('/config')->with('message', "Le client est ajouter avec success!");
+        return redirect('/config')->with('message', "Le client a été ajouté avec success!");
 
     }
 
@@ -79,7 +79,7 @@ class ClientInformationController extends Controller
             'email' => 'required',
         ]);
 
-        //mise à jour les données dans le base de donnée.
+        //mise à jour des données dans le base de donnée.
         $client_information->update([
             'nom_entreprise' =>  $request->nom_entreprise,
             'site' =>  $request->site,
@@ -107,7 +107,7 @@ class ClientInformationController extends Controller
         $response = $post->json();
         return redirect('/config')->with('message', "Le client est mise à jour avec success dans le serveur client ".$response['message']);
         */
-        return redirect('/config')->with('message', "Le client est mise à jour avec success!.");
+        return redirect('/config')->with('message', "vous avez actualisé les informations du client avec succes!.");
     }
 
 

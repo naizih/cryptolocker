@@ -20,7 +20,7 @@ class info_serveur_mgmtController extends Controller {
     public function store(Request $request){
 
 
-        // on sauvgarde les données de serveur
+        // on sauvegarde les données de serveur
         $validator = $request->validate([
             'adresse_ip' => 'required',
             'DNS' => 'required',
@@ -31,7 +31,7 @@ class info_serveur_mgmtController extends Controller {
             'domain_name' =>  request('DNS'),
             'port' => '81',
         ]);
-        return redirect('/config/info_ser_mgmt')->with('message', "l'adresse IP et DNS et ajouter avec success le port utilisé est 81");
+        return redirect('/config/info_ser_mgmt')->with('message', "l'adresse IP et le DNS du serveur ont été enregistré, le port utilisé est 81.");
     }
 
     
@@ -42,7 +42,7 @@ class info_serveur_mgmtController extends Controller {
     
     public function update(Request $request, info_serveur_mgmt $info_serveur) {
 
-        // on sauvgarde les données de serveur
+        // on sauvgarde les données du serveur
         $validator = $request->validate([
             'adresse_ip' => 'required',
             'DNS' => 'required',
@@ -54,6 +54,6 @@ class info_serveur_mgmtController extends Controller {
         ]);
 
     
-        return redirect('/config/info_ser_mgmt')->with('message', "Fonction de modification march bien!");
+        return redirect('/config/info_ser_mgmt')->with('message', "l'adresse IP et le DNS, ils ont été mis à jour avec succes, le port utilisé est 81");
     }
 }

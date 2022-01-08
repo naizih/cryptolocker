@@ -37,19 +37,19 @@ class CheckController extends Controller {
             
             // boucle for pour comparer tous les ligne du tableau.
             for ($index = 0; $index < $nb_selected_record; $index++) {
-                $name_stored = $query[$index]->nom_de_fichier;      // get file name from database
+                $name_stored = $query[$index]->nom_de_fichier;      // get file name from database 
                 $path_stored = $query[$index]->Chemin_de_fichier;   // get path from dataabse
                 $hash_stored = $query[$index]->Hash_de_fichier;     // get Hash from database
                 
                 $file_path = $path_stored.'/'.$name_stored;
 
                 if (is_dir($file_path)){
-                    $hash = md5_file($file_path);         // calculer le hash du fichier partagé.
+                    $hash = md5_file($file_path);         // recalculer le hash du fichier partagé.
                 }else{
-                    return redirect()->back()->with('fail', 'le fichier partagé est supprimer !');
+                    return redirect()->back()->with('fail', 'le fichier partagé n\'exist pas!');
                 }
 
-                // modification la date dans la column dernier_check and Trois_check_not_ok also put a zero
+                // modification de la date dans la column dernier_check and Trois_check_not_ok also put a zero
                 DB::table('hash__file__models')->where('id', $checkbox[$index])->update(['date_du_dernier_check' => Carbon::now()->toDateTimeString()]);
 
                 if ($hash != $hash_stored){                    

@@ -14,7 +14,7 @@
     @endif
     
 <div class="card">
-    <div class="card-header"> Modifier les valeurs de temps pour checker et envoyer les check au serveur maangement </div>
+    <div class="card-header"> Modifier les valeurs de temps pour checker et envoyer les check au serveur mangement </div>
 
 <!--<div class="card-body">
         <p> Valeur de variable de lancement de script check est:  {{$temps->temps_check}} Minute</p>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="inputCompany" class="col-sm-3 col-form-label"> Temps d'envoyer les données :</label>
+        <label for="inputCompany" class="col-sm-3 col-form-label"> Temps pour envoyer les données :</label>
         <div class="col-sm-8">
             <select name="server_time"  id="">
                 <option value="{{$temps->temps_envoie_server_mgmt}}">Valeur actuelle est : {{$temps->temps_envoie_server_mgmt}}</option>

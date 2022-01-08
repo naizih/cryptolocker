@@ -24,7 +24,7 @@ class HashFileModelController extends Controller
     public function bash(Request $request) {
         //return Response::json(['response'=> $request]);
         //return redirect()->response()->js
-        return response()->json(['success' => 'la fichier est ajouter avec succces.']);
+        return response()->json(['success' => 'lae fichier a été ajouté avec succces.']);
 
     }
     //recuperer tous les données du client que se trouvé dans la base de donnée
@@ -42,7 +42,7 @@ class HashFileModelController extends Controller
     }
 
 
-    // fonction pour afficher tous les données de la base de données 
+    // fonction pour afficher tous les données qui sont dans la base de données 
     public function api_datashow(){
         $data = Hash_File_Model::all();
         //return response()->json($data);
@@ -54,32 +54,39 @@ class HashFileModelController extends Controller
    
 
 
-
+    //fonction  pour choisir le fichier qui va etre check
     public function select_file( Request $folder ){
         $dir = '/mnt';      // l'endroit de montage de partage
 
+        // si le variable file est present dans le URL
         if(isset($_GET['file'])){ $dir = $dir.$_GET['file']; }
        
+        // iteration
         function iter_file($dir){
-            $result = [];
-            if (is_dir($dir)) {
-                if ($dh = opendir($dir)) {
+            $result = [];       // variable pour retourner le resultat dans forma de tableau
+            if (is_dir($dir)) {     // si on est dans le directory
+                if ($dh = opendir($dir)) { // si il y a un autre dossier dans le dossier où on est
                     while (($file = readdir($dh)) !== false) {
+                        // le . et .. sont des directory par default dans linux
                         if($file === '.' || $file === '..') { continue; }
 
+                        // si on clique sur le fichier 
                         if(filetype($dir.'/'.$file) === 'file'){
                             array_push($result, [ 'name' => $file, 'path' => $dir, 'filetype' => 'file']);
                             //return $result;
                         }
+                        //si on clique sur le dossier
                         if(filetype($dir.'/'.$file) !== 'file')
                             array_push($result, [ 'name' => $file, 'path' => $dir, 'filetype' => 'dir']);
                     }
+                    // fermer directory
                     closedir($dh);
                 }
                 return $result;
             }
         }
 
+        // variable qui appele à fonction iter_file
         $res = iter_file($dir);
         return view('pages.ajouter_fichier_appat', ['files' => $res]);
     }
@@ -139,7 +146,7 @@ class HashFileModelController extends Controller
     
 
 
-    // fonction pour supprimer pleusieur ligne, pure laravel (php)
+    // fonction pour supprimer pleusieurs lignes, pure laravel (php)
     public function destroy_multiple_laravel(Request $request){
         //avant de supprimer on valide si utilisateur a bien selectioner la checkbox ou pas
         $request->validate([

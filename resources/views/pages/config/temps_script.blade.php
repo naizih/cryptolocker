@@ -6,7 +6,7 @@
 
 <!-- pour configurer apres le temps de check auto-->
 <div class="card p-3">
-        <h2 class="display-8">Parametrage de variable temps</h2>
+        <h2 class="display-8">Paramètres du temps</h2>
         <hr>
 
         <div class="form-group row">
@@ -22,14 +22,14 @@
                         @endfor
                     </select>     
                     @endif
-                </strong> minute.</p>
+                </strong> minutes.</p>
             </div>
         </div>
         
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label"> Envoyer données au serveur mgmt</label>
+            <label class="col-sm-3 col-form-label"> Envoyer les données au serveur mgmt</label>
             <div class="col-sm-8">
-                <p> Envoyer les information de Check au serveur maangement tous les <strong>
+                <p> Envoyer les informations de Check au serveur maangement tous les <strong>
                     @if (!empty($temps['temps_envoie_server_mgmt']))
                     <span class="text-primary"> {{$temps['temps_envoie_server_mgmt']}} </span>
                     @else
@@ -39,7 +39,7 @@
                         @endfor
                     </select> 
                     @endif
-                </strong> minute.</p>
+                </strong> minutes.</p>
             </div>
         </div> 
 

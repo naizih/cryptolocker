@@ -6,10 +6,6 @@
 
 @section('content')
 
-
-
-
-
 <!-- navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-light mt-4">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -18,7 +14,7 @@
             <a class="nav-link" href="/config"> Info Client <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/config/info_ser_mgmt">Info su serveur Mgmt</a>
+                <a class="nav-link" href="/config/info_ser_mgmt">Info du serveur Mgmt</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/config/variable_temps_script">Script Time</a>
@@ -29,6 +25,18 @@
         </ul>
     </div>
 </nav>
+
+    @if(\Session::get('message'))
+    <div class="alert alert-success">
+        <p> {{session::get('message')}}</p>
+        
+    </div>
+    @elseif(\Session::get('error'))
+    <div class="alert alert-danger">
+        {{session::get('error')}}
+    </div>
+    @endif
+
 
 @yield('config_content')
 

@@ -16,7 +16,7 @@ class ConfigController extends Controller
     }
 
 
-    //configuration de serveur partage
+    //configuration deuserveur partage
     public function server_partage() {
         $server_info = info_serveur_mgmt::first();
         return view('pages.config.information_serveur_partage', ['info_serveur' => $server_info]);   
@@ -29,7 +29,7 @@ class ConfigController extends Controller
         $server_ip = info_serveur_mgmt::first()->IP;            //GET serveur adresse IP.
         $server_port = "81";  
 
-        $url = $server_ip.':'.$server_port;
+        $url = $server_ip.':'.$server_port.'/api/connexion';
         $ch = curl_init($url);
         
         $handle = curl_init($url);                                  //it initialize a new session and return a cURL handle
@@ -44,7 +44,7 @@ class ConfigController extends Controller
             $res = Session()->flash('message', "Vous etes bien connecté au serveur management");
             return redirect()->back();
         }else{
-            $response = Session()->flash('error', "Voue n'etes pas connecté!");
+            $response = Session()->flash('error', "Vous n'etes pas connecté!");
             return redirect()->back();
         }
 

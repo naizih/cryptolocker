@@ -48,7 +48,7 @@ class TempsScriptController extends Controller {
             'temps_check' =>  request('temps_check'),
             'temps_envoie_server_mgmt' =>  request('server_time'),
         ]);
-        return redirect('/config/variable_temps_script');
+        return redirect('/config/variable_temps_script')->with('message', "vous avez modifié le temps de check avec succes.");
 
     }
 

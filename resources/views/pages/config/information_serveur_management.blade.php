@@ -1,23 +1,8 @@
 @extends('template_config')
 
-
-
-
-<!-- Afficher les erreurs de validation-->
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
-
 @section('config_content')
 <section class="card p-3">
-    <h2 class="display-8">Information de serveur management</h2>
+    <h2 class="display-8">Information du serveur management</h2>
         <hr class="my-2">
         <div class="input_style" id="config_server_mgmt">
         <form action="ajouter_info_serveur" method="POST">
