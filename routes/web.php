@@ -65,21 +65,21 @@ Route::get('/connected', [ConfigController::class, 'verification_de_connexion'])
 
 
 // Route vers le controlleur qui a les informations du client "Clientinformation"
-Route::get('/config', [ClientInformationController::class, 'index']);           // 
+Route::get('/config', [ClientInformationController::class, 'index'])->name('config');           // 
 Route::get('/modifier_client/{id}/modifier', [ClientInformationController::class, 'edit']);     // Route pour afficher l'info du client à modifier.
 Route::PUT('/modifier_client/{client_information}', [ClientInformationController::class, 'update']);        //route pour actualiser les informations du client.
 Route::post('/ajouter-client', [ClientInformationController::class, 'store']);              // sauvgarder les informations du client dans la base de données.
 
 
 // Route vers le controlleur inormations du serveur de management "info_serveur_mgmt"
-Route::get('/config/info_ser_mgmt', [info_serveur_mgmtController::class, 'index']);             //
+Route::get('/config/info_ser_mgmt', [info_serveur_mgmtController::class, 'index'])->name('config-serv-mgmt');             //
 Route::get('/modifier_serveur_info/{id}/modifier', [info_serveur_mgmtController::class, 'edit']);     // Route pour afficher les informations du serveur management.
 Route::post('/config/ajouter_info_serveur', [info_serveur_mgmtController::class, 'store']);              // Route pour sauvegarder les informations du serveur management dans la base de données.
 Route::PUT('/modifier_serveur_info/{info_serveur}', [info_serveur_mgmtController::class, 'update']);  ///route pour actualiser les informations du serveur management
 
 
 // Route vers la page de configuration du temps de check dans script
-Route::get('/config/variable_temps_script', [TempsScriptController::class, 'index']);           // afficher la page config.
+Route::get('/config/variable_temps_script', [TempsScriptController::class, 'index'])->name('config-script-time');           // afficher la page config.
 Route::get('/modifier_temps/{id}/modifier', [TempsScriptController::class, 'edit']);            //route pour changer le temps de check
 Route::post('/config/ajouter_temps_script', [TempsScriptController::class, 'store']);           //route pour sauvegarder la modification du temps
 Route::PUT('/update_temps/{temps}', [TempsScriptController::class, 'update']);                      //route pour actualiser le temps
@@ -87,7 +87,7 @@ Route::PUT('/update_temps/{temps}', [TempsScriptController::class, 'update']);  
 
 
 
-Route::get('/config/info_ser_partage', [ConfigController::class, 'server_partage']);  //Route pour acceder le serveur de partage
+Route::get('/config/info_ser_partage', [ConfigController::class, 'server_partage'])->name('config-info-srv-partage');  //Route pour acceder le serveur de partage
 
 
 

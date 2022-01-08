@@ -9,19 +9,24 @@
 <!-- navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-light mt-4">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-            <a class="nav-link" href="/config"> Info Client <span class="sr-only"></span></a>
-            </li>
+
+        <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" href="/config/info_ser_mgmt">Info du serveur Mgmt</a>
+                <a class="nav-link {{ Route::current()->getName() == 'config' ? 'active text-primary' : 'text-dark' }}" aria-controls="home" href="{{route('config')}}" role="tab" data-toggle="tab"> Info Client </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link" href="/config/variable_temps_script">Script Time</a>
+                <a class="nav-link {{ Route::current()->getName() == 'config-serv-mgmt' ? 'active text-primary ' : 'text-dark' }}" aria-controls="home" href="{{route('config-serv-mgmt')}}" role="tab" data-toggle="tab"> Info du serveur Mgmt </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link" href="/config/info_ser_partage">Info du serveur partage</a>
+                <a class="nav-link {{ Route::current()->getName() == 'config-script-time' ? 'active text-primary ' : 'text-dark' }}" aria-controls="home" href="{{route('config-script-time')}}" role="tab" data-toggle="tab"> Temps de scripts </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ Route::current()->getName() == 'config-info-srv-partage' ? 'active text-primary ' : 'text-dark' }}" aria-controls="home" href="{{route('config-info-srv-partage')}}" role="tab" data-toggle="tab"> Info du serveur partage </a>
+            </li>
+            
         </ul>
     </div>
 </nav>
