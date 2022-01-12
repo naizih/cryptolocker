@@ -55,7 +55,7 @@ class CheckSentToServer extends Command
 
 
 
-        $ind = 0;
+        //$ind = 0;
         // we send data if check result is good or not 
         // we send alert in data if Trois_check_not_ok is true
         foreach ($data as $index => $file){
@@ -64,12 +64,14 @@ class CheckSentToServer extends Command
             $string_date = carbon::parse($date_last_not_ok);
             $diff_minute = carbon::now()->diffInMinutes($string_date);     // difference entre le date actuelle est le date de variable Trois_check_not_ok
             
-            // if diff() entre le date actuel est le data de Trois_check_not_ok est > temps_check
-            if ($diff_minute > intval($temps_check) ){
+           
+
+            // if diff() entre le date actuel est le data de Trois_check_not_ok est > temps_check (c'est la temps enregistré dans la base de données)
+            if ($diff_minute > ( 3 * intval($temps_check)) ){
                 $alert = true;
             }
 
-            $ind = $ind + $index;
+            //$ind = $ind + $index;
 
             $file_result[] = [
                 //information de client
