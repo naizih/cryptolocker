@@ -32,9 +32,10 @@ class Kernel extends ConsoleKernel
 
         $variable_temps = Temps_script::all()->first();     // GET Client email adresse
         $temps_envoie_srv = $variable_temps->temps_envoie_server_mgmt;
+        $temps_check = $variable_temps->temps_check;
         //dd($temps_check);
       
-        $schedule->command('check:minute')->everyMinute();
+        $schedule->command('check:minute')->cron('*/'.$temps_check.' * * * *');
         $schedule->command('check:sendtoserver')->cron('*/'.$temps_envoie_srv.' * * * *');
 
     }
