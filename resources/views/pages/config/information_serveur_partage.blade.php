@@ -1,4 +1,4 @@
-@extends('template_config')
+@extends('templates.template_config')
 
 @section('config_content')
 <div class="my-2">

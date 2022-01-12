@@ -14,35 +14,15 @@ Use \Carbon\Carbon;
 
 
 
-
-
 class HashFileModelController extends Controller
 {
-
-
-    
-    public function bash(Request $request) {
-        //return Response::json(['response'=> $request]);
-        //return redirect()->response()->js
-        return response()->json(['success' => 'lae fichier a été ajouté avec succces.']);
-
-    }
-    //recuperer tous les données du client que se trouvé dans la base de donnée
-
     public function index() {
-         
-        $data = Hash_File_Model::all();
-        
-        $info_client = Client_information::all();
-        return view('accueil', ['information_client' => $info_client, 'table_fichier_hash' => $data]);
-
-        //boucle infini pour tester les hashe de fichier
-        //$data = Hash_File_Model::select('nom_de_fichier')->get();
-        //dd($data);
+        return response()->json(['name' => 'hello this is ....' ]);
     }
 
 
     // fonction pour afficher tous les données qui sont dans la base de données 
+    /*
     public function api_datashow(){
         $data = Hash_File_Model::all();
         //return response()->json($data);
@@ -51,6 +31,7 @@ class HashFileModelController extends Controller
             'fichiers_hash' => $data
         ], Response::HTTP_OK);
     }
+    */
    
 
 

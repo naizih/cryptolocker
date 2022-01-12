@@ -43,7 +43,7 @@ class CheckController extends Controller {
                 
                 $file_path = $path_stored.'/'.$name_stored;
 
-                if (is_dir($file_path)){
+                if (is_file($file_path)){
                     $hash = md5_file($file_path);         // recalculer le hash du fichier partagé.
                 }else{
                     return redirect()->back()->with('fail', 'le fichier partagé n\'exist pas!');

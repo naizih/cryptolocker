@@ -1,5 +1,5 @@
 <!-- utilisation de template_config -->
-@extends('template_config')
+@extends('templates.template_config')
 
 @section('config_content')
 <section class="card p-3">

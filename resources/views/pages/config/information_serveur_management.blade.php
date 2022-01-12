@@ -1,5 +1,4 @@
-@extends('template_config')
-
+@extends('templates.template_config')
 @section('config_content')
 <section class="card p-3">
     <h2 class="display-8">Information du serveur management</h2>

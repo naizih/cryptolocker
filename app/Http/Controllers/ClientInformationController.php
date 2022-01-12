@@ -17,7 +17,7 @@ class ClientInformationController extends Controller
     // on retourne notre information vers la page de config et dans la page config, on inclue le code html dans l'info_client
     public function index() {
         $info_client = Client_information::all();
-        return view('pages.config', ['information_client' => $info_client]);   
+        return view('pages.config', ['information_client' => $info_client]); 
 
     }
 

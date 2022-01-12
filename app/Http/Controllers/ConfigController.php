@@ -22,14 +22,13 @@ class ConfigController extends Controller
         return view('pages.config.information_serveur_partage', ['info_serveur' => $server_info]);   
     }
 
-    
 
     public function verification_de_connexion(){
 
         $server_ip = info_serveur_mgmt::first()->IP;            //GET serveur adresse IP.
-        $server_port = "81";  
+        //$server_port = "81";  
 
-        $url = $server_ip.':'.$server_port.'/api/connexion';
+        $url = $server_ip.'/api/connexion';
         $ch = curl_init($url);
         
         $handle = curl_init($url);                                  //it initialize a new session and return a cURL handle
