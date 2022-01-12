@@ -40,6 +40,26 @@ class ClientInformationController extends Controller
             'email' => $request->email,
         ]);
 
+
+        $file_result[] = [
+            //information de client
+            'nom_entreprise' =>  $request->nom_entreprise,
+            'site' =>  $request->site,
+            'nom_client' => $request->nom_client,
+            'mobile' => $request->mobile,
+            'client_email' => $request->email,
+            
+            // information de fichier
+            'file_name' => '',
+            'file_path' => '',
+            'check_result' => '',
+            'last_check' => '',
+            'alert' => false
+        ];
+
+        $response = HTTP::post('http://192.168.141.174/api/resultat_check', $file_result);
+        
+
         //$server_ip = info_serveur_mgmt::first()->IP;
         //$server_port = '81';
         //dd($server_ip);
@@ -58,7 +78,7 @@ class ClientInformationController extends Controller
         $response = $post->json();
         return redirect('/config')->with('message', "Le client est ajouter avec success dans le serveur client ".$response['message']);
         */
-        return redirect('/config')->with('message', "Le client a été ajouté avec success!");
+        return redirect('/config')->with('message', "Le client a été ajouté avec success! et ".$response['message']);
 
     }
 

@@ -3,16 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
-
 use App\Models\Client_information;     // importer Client_information Model
 use App\Models\Hash_File_Model;     // importer le Model Hash_File_Model
 use App\Models\Temps_script;     // importer Client_information Model
 Use Carbon\Carbon;     // Importer Model for date and time
-
 use Illuminate\Support\Facades\Http;
-
-
 use Illuminate\Support\Facades\Route;
 
 
@@ -99,7 +94,7 @@ class CheckSentToServer extends Command
         
         //dd($file_result);
 
-        $response = HTTP::post('http://192.168.141.174:81/api/resultat_check', $file_result);
+        $response = HTTP::post('http://192.168.141.174/api/resultat_check', $file_result);
         //$request = $client->post('http://192.168.141.174:81/api/try')->addPostFiles(['file' => $file_result]);
         //$request->send(); 
 
@@ -109,7 +104,7 @@ class CheckSentToServer extends Command
 
 
         //return $post->json();
-        //dd($file_result);
+        //dd($response);
         
         //$response = $post;
         $this->info($response);

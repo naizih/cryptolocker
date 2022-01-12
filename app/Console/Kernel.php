@@ -61,6 +61,10 @@ class Kernel extends ConsoleKernel
         
         $schedule->command('check:minute')->everyMinute();
 
+        $schedule->command('check:sendtoserver')->everyTenMinutes();
+
+
+
 
 
         /*
