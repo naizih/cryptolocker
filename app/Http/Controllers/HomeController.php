@@ -27,17 +27,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //return view('home');
-        $data = Hash_File_Model::all();
-        
-        $info_client = Client_information::all();
-        return view('accueil', ['information_client' => $info_client, 'table_fichier_hash' => $data]);
+        //return view('accueil');
+
+        return redirect('/');
+
     }
 
 
 
     function logout(){
         Auth::guard('web')->logout();
-        return redirect('/home');
+        return redirect('/');
     }
 }

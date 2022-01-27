@@ -8,6 +8,15 @@ use App\Http\Controllers\info_serveur_mgmtController;
 use App\Http\Controllers\TempsScriptController;
 use App\Http\Controllers\HomeController;
 
+use App\Http\Controllers\SrvPartageController;
+
+
+
+
+
+
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 
 //Route pour recuperer tous les données en format json.
@@ -24,12 +33,12 @@ Auth::routes([
 Route::name('user.')->group(function(){
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    //Tous les routes qui viens de laravel, pas de vue.js.
+    Route::get('/', [HashFileModelController::class, 'index']);         // route vers la page accueil
+    Route::get('accueil', [HashFileModelController::class, 'index'])->name('accueil');   // route vers la page accueil
 
     Route::middleware(['auth:web'])->group(function(){
 
-        //Tous les routes qui viens de laravel, pas de vue.js.
-        Route::get('/', [HomeController::class, 'index']);         // route vers la page accueil
-        Route::get('accueil', [HomeController::class, 'index'])->name('accueil');   // route vers la page accueil
 
         //Tous les requets viens et qui part de la page config 
         Route::get('/connected', [ConfigController::class, 'verification_de_connexion']);       // verification de connexion
@@ -53,7 +62,27 @@ Route::name('user.')->group(function(){
         Route::PUT('/update_temps/{temps}', [TempsScriptController::class, 'update']);                      //route pour actualiser le temps
 
         // Route pour utiliser après.
-        Route::get('/config/info_ser_partage', [ConfigController::class, 'server_partage'])->name('config-info-srv-partage');  //Route pour acceder le serveur de partage
+        //Route::get('/config/info_ser_partage', [ConfigController::class, 'server_partage'])->name('config-info-srv-partage');  //Route pour acceder le serveur de partage
+        Route::get('/config/srv-partage', [SrvPartageController::class, 'index'])->name('config-info-srv-partage');
+        Route::get('/config/srv-partage/ajouter', [SrvPartageController::class, 'create'])->name('afficher-ajouter-srv-partage');   // CREATE
+        Route::post('/config/srv-partage/ajouter', [SrvPartageController::class, 'store'])->name('ajouter-srv-partage');            // STORE
+        Route::delete('/config/srv-partage/delete', [SrvPartageController::class, 'destroy'])->name('supprimer-srv-partage');       // DEELTE
+        Route::get('/config/srv-partage/{id}/edit', [SrvPartageController::class, 'edit'])->name('edit-srv-partage', 'id');         //EDIT
+        Route::post('/config/srv-partage/{id}/update', [SrvPartageController::class, 'update'])->name('update-srv-partage', 'id');         // UPDATE
+        
+
+        Route::get('/mount', function () {
+            $process = new Process(['python3', '/home/user/cryptolocker_V1.3/cryptolocker/app/Bash/script.py']);
+            $process->run();
+
+            // executes after the command finishes
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+
+            echo $process->getOutput();
+        });
+
 
         //route pour selectioner le fichier 
         Route::get('choisir_fichier_appat', [HashFileModelController::class, 'select_file']);   // Route pour iteration de fichier

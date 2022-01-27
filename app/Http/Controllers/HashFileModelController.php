@@ -17,7 +17,10 @@ Use \Carbon\Carbon;
 class HashFileModelController extends Controller
 {
     public function index() {
-        return response()->json(['name' => 'hello this is ....' ]);
+        $data = Hash_File_Model::all();
+        
+        $info_client = Client_information::all();
+        return view('accueil', ['information_client' => $info_client, 'table_fichier_hash' => $data]);
     }
 
 

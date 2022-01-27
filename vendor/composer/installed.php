@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.3.x-dev',
-        'version' => '1.3.9999999.9999999-dev',
+        'pretty_version' => '1.5.x-dev',
+        'version' => '1.5.9999999.9999999-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'fcae84cb3952b52f146435b1880c7974d68c0129',
+        'reference' => '6777734e137e3bf684f2c77855f835cfa1ca7b12',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -395,12 +395,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.3.x-dev',
-            'version' => '1.3.9999999.9999999-dev',
+            'pretty_version' => '1.5.x-dev',
+            'version' => '1.5.9999999.9999999-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'fcae84cb3952b52f146435b1880c7974d68c0129',
+            'reference' => '6777734e137e3bf684f2c77855f835cfa1ca7b12',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -1179,12 +1179,12 @@
             'dev_requirement' => false,
         ),
         'symfony/process' => array(
-            'pretty_version' => 'v5.4.0',
-            'version' => '5.4.0.0',
+            'pretty_version' => 'v5.4.2',
+            'version' => '5.4.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/process',
             'aliases' => array(),
-            'reference' => '5be20b3830f726e019162b26223110c8f47cf274',
+            'reference' => '2b3ba8722c4aaf3e88011be5e7f48710088fb5e4',
             'dev_requirement' => false,
         ),
         'symfony/routing' => array(

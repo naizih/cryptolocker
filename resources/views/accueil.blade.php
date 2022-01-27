@@ -18,6 +18,7 @@
         </div>
     @endif
 
+    <!--
     @if ($errors->any())
     <div class="alert alert-danger">
       <ul>
@@ -27,9 +28,11 @@
       </ul>
     </div>
     @endif
+-->
     <hr class="my-1">
 
 
+    @if(Auth::user())
 
     <div class="btn-toolbar p-3">
       <div class="btn-group me-1">
@@ -48,11 +51,14 @@
         </div>
       </form>
     </div>  
+    @endif
 
     <table class="table table-striped mt-4 table-bordered rounded">
       <thead class="table-primary text-capitalize text-center">
         <tr>
-          <th scope="col">Select</th>
+          @if(Auth::user())
+            <th scope="col">Select</th>
+          @endif
           <th scope="col">Nom du fichier</th>
           <th scope="col">Chemin</th>
           <th scope="col">Hash</th>
@@ -66,9 +72,11 @@
         @if(isset($table_fichier_hash))
         @foreach($table_fichier_hash ?? '' as $ligne )
         <tr>
-            <td>
-              <input form="form" name="checkbox[]" type="checkbox" value="{{$ligne->id}}">
-            </td>
+            @if(Auth::user())
+              <td>
+                <input form="form" name="checkbox[]" type="checkbox" value="{{$ligne->id}}">
+              </td>
+            @endif
             <td> {{$ligne->nom_de_fichier}}</td>
             <td> {{$ligne->Chemin_de_fichier}} </td>
             <td> {{$ligne->Hash_de_fichier}} </td>

@@ -13,3 +13,14 @@
     margin: auto;
 }
 */
+
+
+#srv-partage-ajouter .form-group{
+    margin-top: 10px;
+}
+
+
+#srv-partage-ajouter .form-group label{
+    font-family: 'Times New Roman', Times, serif;
+}
+

@@ -7,6 +7,7 @@
       <title>Cryptolocker</title>
       <!--<link href="{{ mix('css/app.css') }}" rel="stylesheet">-->
       <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
+
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
       <!-- CSS only -->
@@ -30,21 +31,19 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          @if (Auth::user())
             <li class="nav-item active">
               <a class="nav-link" href="{{ route('user.accueil') }}"> Accueil <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ route('user.config') }}"> Config</a>
             </li>
-          @endif
         </ul>
       </div>
 
       @guest
         @if (Route::has('login'))
           <div class="d-flex text-white">
-            <a href="{{ route('user.home') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Login</a>
+            <a href="{{ route('user.home') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Se connecter </a>
           </div>
         @endif
       @else
@@ -62,8 +61,27 @@
         </form>
       @endguest
     </nav>
+
+
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+    @endif
+
+    @if(\Session::get('message'))
+    <div class="alert alert-success">
+        <p> {{session::get('message')}}</p>
+    </div>
+    @endif
     
 
+    
     
     @yield('content')
 

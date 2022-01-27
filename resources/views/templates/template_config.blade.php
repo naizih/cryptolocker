@@ -27,6 +27,7 @@
     </div>
 </nav>
 
+<!--
     @if(\Session::get('message'))
     <div class="alert alert-success">
         <p> {{session::get('message')}}</p>
@@ -37,6 +38,8 @@
         {{session::get('error')}}
     </div>
     @endif
+
+-->
 
 
 @yield('config_content')
