@@ -4,10 +4,12 @@
 
 
 <!-- pour configurer apres le temps de check auto-->
-<div class="card p-3">
-        <h2 class="display-8">Paramètres du temps</h2>
-        <hr>
 
+<div class="card">
+    <div class="card-header">
+        <h2 class="display-8">Paramètres du temps</h2>
+    </div>
+    <div class="card-body">
         <div class="form-group row">
             <label for="inputName" class="col-sm-3 col-form-label"> Temps check </label>
             <div class="col-sm-8">
@@ -60,10 +62,8 @@
             @csrf
         </form>
         
-
-
     </div>
-</section>
+</div>
 
 
 @endsection

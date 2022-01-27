@@ -23,15 +23,13 @@ class info_serveur_mgmtController extends Controller {
         // on sauvegarde les données de serveur
         $validator = $request->validate([
             'adresse_ip' => 'required',
-            'DNS' => 'required',
         ]);
         
         info_serveur_mgmt::create([
             'IP' =>  request('adresse_ip'),
-            'domain_name' =>  request('DNS'),
-            'port' => '81',
+            'port' => '80',
         ]);
-        return redirect('/config/info_ser_mgmt')->with('message', "l'adresse IP et le DNS du serveur ont été enregistré, le port utilisé est 81.");
+        return redirect('/config/info_ser_mgmt')->with('message', "IP/DNS du serveur a été enregistré, le port utilisé est 80.");
     }
 
     
@@ -45,15 +43,12 @@ class info_serveur_mgmtController extends Controller {
         // on sauvgarde les données du serveur
         $validator = $request->validate([
             'adresse_ip' => 'required',
-            'DNS' => 'required',
         ]);
         
         $info_serveur->update([
             'IP' =>  request('adresse_ip'),
-            'domain_name' =>  request('DNS'),
         ]);
 
-    
-        return redirect('/config/info_ser_mgmt')->with('message', "l'adresse IP et le DNS, ils ont été mis à jour avec succes, le port utilisé est 81");
+        return redirect('/config/info_ser_mgmt')->with('message', "IP/DNS a mis à jour avec succes, le port utilisé est 80");
     }
 }

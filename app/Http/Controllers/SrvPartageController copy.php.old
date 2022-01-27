@@ -5,8 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Srv_partage;
 use Illuminate\Http\Request;
 
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+
+
+
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+use Illuminate\Filesystem\Filesystem;
+
+
 
 
 class SrvPartageController extends Controller
@@ -45,9 +54,9 @@ class SrvPartageController extends Controller
 
     public function store(Request $request, Srv_partage $partag ) {
 
-        $partag = new Srv_partage;  // instance de mode Srv_partage
+        //$partag = new Srv_partage;  // instance de mode Srv_partage
 
-        // Validation des données
+        /*
         $request->validate([
             'ip' => 'required',
             'user' => 'required',
@@ -55,25 +64,98 @@ class SrvPartageController extends Controller
             'local_mount_path' => 'required',
             'password' => 'required',
         ]);
-
+*/
         
-        // Créé le dossier sur lequel on va monter le partage
+/*
+
         if(Storage::exists($request->local_mount_path)){
             return redirect()->back()->withErrors(['message' => 'Un dossier avec nom '. $request->local_mount_path.' existe déja.'])->withInput();
         }
         Storage::makeDirectory($request->local_mount_path);
+*/
 
 
-        // Get current working directory
-        $old_path = getcwd();
-        $n = chdir(base_path().'/app/Bash/');       // changer le dossier au dosssier ou se trouve le fichier de script.
 
-        // Lancer le commande
-        system('./mount.sh '.$request->user.' '.$request->password.' '.$request->ip.' '.$request->shared_folder.' '.$request->local_mount_path);
+        //fopen('\\\\192.168.176.2\\Drive\\appat.txt',"r");
 
-        chdir($old_path);       // change working diretory to default working directory.
+        $local_path = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        //$output = exec("echo 'user' | sudo -S mount -t cifs -o user=projm1_21,pass=5IwEc39Y8h9T //192.168.176.2/projetm12021 /home/user/cryptolocker_V1.3/cryptolocker/storage/app/partage2");
+        //exec("echo 'user' | sudo -S mount -t cifs -o user=projm1_21,pass=5IwEc39Y8h9T //192.168.176.2/projetm12021 /home/user/cryptolocker_V1.3/cryptolocker/storage/app/partage2");
         
-        // ajouter le nouveau partage dans le base de données
+
+        //system('net use "\\\\192.168.176.2\\projetm12021" 5IwEc39Y8h9T /user:projm1_21 /persistent:no>nul 2>&1"');
+
+        //exec('nohup php artisan check:mountdrive > /dev/null &');
+
+
+        //echo shell_exec('pwd');
+        $file = base_path()."/app/Bash/mount.sh projm1_21 5IwEc39Y8h9T 192.168.176.2 projetm12021 partage2";
+       
+
+        //exec('python3 ../app/Bash/script.py');
+
+        $old_path = getcwd();
+        $n = chdir(base_path().'/app/Bash/');
+
+        echo getcwd();
+        echo '<br>';
+
+        $command = "sudo ".base_path()."/app/Bash/mount.sh";
+
+
+        //exec('sudo mount.sh');
+        //echo shell_exec('./mount.sh');
+
+        file_exists('mount.sh');
+/*
+        if(file_exists('mount.sh')) {
+            system('sudo mount.sh');
+        }else{
+            die('File not found!'); 
+        }
+*/
+        echo 'pwd ==> '.shell_exec('pwd');
+        echo '<br>';
+        echo 'ls ==> '.shell_exec('ls -l');
+        echo '<br>';
+        echo 'whoami ==> '.shell_exec('whoami');
+
+        //exec('sudo /home/user/cryptolocker_V1.3/cryptolocker/app/Bash/mount.sh');
+
+       
+        echo "<br>";
+        $dirname = "/home/user/cryptolocker_V1.3/cryptolocker/storage/app/partage2";
+
+        /*
+        foreach (scandir($dirname) as $file){
+            if (!in_array($file, array('.','..','.svn','.git'))) return "partage 2 direcory is not empty";
+        }
+        */
+
+        echo '<br>';
+
+        system('./mount.sh projm1_21 5IwEc39Y8h9T 192.168.176.2 projetm12021 partage2');
+
+
+/*
+
+        $process = new Process(['bash', 'mount.sh']);
+        $process->run();
+
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        echo $process->getOutput();
+*/
+        
+        //echo "<pre>$output</pre>";
+
+        //Storage::makeDirectory($request->local_mount_path);
+
+/*
         $partag->create([
             'ip' =>  $request->ip,
             'utilisateur' =>  $request->user,
@@ -81,9 +163,9 @@ class SrvPartageController extends Controller
             'partage_monter' => $request->local_mount_path,
             'password' => $request->password,
         ]);
+*/
 
-        // redirigé avec le message de succès.
-        return redirect('/config/srv-partage')->with('message', "Votre Nouveau compte de partage est ajouter avec succès.");
+        //return redirect('/config/srv-partage')->with('message', "Votre Nouveau compte de partage est ajouter avec succès.");
     }
 
     /**
@@ -143,13 +225,6 @@ class SrvPartageController extends Controller
             'password' => $request->password,
         ]);
 
-        // Quand on mis à jour un partage on relance notre script
-        $old_path = getcwd();                       // Get current working directory
-        $n = chdir(base_path().'/app/Bash/');       // changer le dossier au dosssier ou se trouve le fichier de script.
-        system('./mount.sh '.$request->user.' '.$request->password.' '.$request->ip.' '.$request->shared_folder.' '.$request->local_mount_path);
-        chdir($old_path);       // change working diretory to default working directory.
-
-
         return redirect('/config/srv-partage')->with('message', "Votre compte de partage est modifié avec succès.");
     }
 
@@ -159,22 +234,12 @@ class SrvPartageController extends Controller
      * @param  \App\Models\Srv_partage  $srv_partage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Srv_partage $srv_partage, Request $request) {
- 
-        // variables
+    public function destroy(Srv_partage $srv_partage, Request $request)
+    {
         $id = $request->id;
-        $script_directory = base_path().'/app/Bash';       // Dossier de fichier scripts.
-        $mount_directory = storage_path('app').'/'.$request->local_mount_path;
 
-        system($script_directory.'/umount.sh '.$mount_directory);     // unmount the drive.
-
-        // supprimer le dossier
-        Storage::deleteDirectory($request->local_mount_path);
-
-        // supprimer la ligne correspondance dans le base de données.
-        $srv_partage->where('id', $id)->delete();        
-
+        $srv_partage->where('id', $id)->delete();
+        
         return redirect('/config/srv-partage')->with('message', "Le Compte partagé est supprimer avec succès.");
-
     }
 }

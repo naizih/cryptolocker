@@ -17,12 +17,6 @@
         </div>
     </div>
             
-    <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label"> DNS name :</label>
-        <div class="col-sm-8">           
-            <input type="text" class="form-control" name="DNS" id="inputCompany" value="{{$info_serveur->domain_name}}">
-        </div>
-    </div> 
     <div class="form-group row pt-3">
         <label for="inputEmail" class="col-sm-2 col-form-label"> &nbsp;</label>
         <div class="col-sm-8">

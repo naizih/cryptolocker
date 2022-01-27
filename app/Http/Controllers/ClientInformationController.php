@@ -17,9 +17,38 @@ class ClientInformationController extends Controller
     // on retourne notre information vers la page de config et dans la page config, on inclue le code html dans l'info_client
     public function index() {
         $info_client = Client_information::all();
-        return view('pages.config', ['information_client' => $info_client]); 
+        return view('pages.config.information_serveur_client', ['information_client' => $info_client]); 
 
     }
+
+
+    public function verification_de_connexion(){
+
+        $server_ip = info_serveur_mgmt::first()->IP;            //GET serveur adresse IP.
+        //$server_port = "81";  
+
+        $url = $server_ip.'/api/connexion';
+        $ch = curl_init($url);
+        
+        $handle = curl_init($url);                                  //it initialize a new session and return a cURL handle
+        curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);        // set options for a CURL session identified by the ch parameter
+        $response = curl_exec($handle);
+        $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+        curl_close($handle);
+
+        
+        // condition pour envoyer la reponse de connexion au utilisateur.
+        if($httpCode == "200"){
+            $res = Session()->flash('message', "Vous etes bien connecté au serveur management");
+            return redirect()->back();
+        }else{
+            $response = Session()->flash('error', "Vous n'etes pas connecté!");
+            return redirect()->back();
+        }
+
+    }
+
+    
 
     public function store(Request $request, Client_information $client ) {
         //
