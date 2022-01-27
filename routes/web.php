@@ -29,7 +29,7 @@ Route::name('user.')->group(function(){
     Route::get('/', [HashFileModelController::class, 'index']);         // route vers la page accueil
     Route::get('accueil', [HashFileModelController::class, 'index'])->name('accueil');   // route vers la page accueil
 
-    Route::middleware(['auth:web'])->group(function(){
+    Route::middleware(['auth:web', 'PreventBackHistory'])->group(function(){
 
 
         //Tous les requets viens et qui part de la page config 

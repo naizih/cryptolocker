@@ -38,28 +38,31 @@
               <a class="nav-link" href="{{ route('user.config') }}"> Config</a>
             </li>
         </ul>
-      </div>
+      
+      
+        <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+          @guest
+            @if (Route::has('login'))
+              <div class="d-flex text-white">
+                <a href="{{ route('user.home') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Se connecter </a>
+              </div>
+            @endif
+          @else
+            <div class="d-flex text-white">
+              <a form="logout-form" href="{{ route('user.logout') }}" class="btn text-white" 
+                    onclick="event.preventDefault(); 
+                    document.getElementById('logout-form').submit();"> 
+                    <i class="fa fa-fw fa-sign-out"></i> 
+                {{ __('Logout')}}
+              </a>
+            </div>
 
-      @guest
-        @if (Route::has('login'))
-          <div class="d-flex text-white">
-            <a href="{{ route('user.home') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Se connecter </a>
-          </div>
-        @endif
-      @else
-        <div class="d-flex text-white">
-          <a form="logout-form" href="{{ route('user.logout') }}" class="btn text-white" 
-                onclick="event.preventDefault(); 
-                document.getElementById('logout-form').submit();"> 
-                <i class="fa fa-fw fa-sign-out"></i> 
-            {{ __('Logout')}}
-          </a>
+            <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
+          @endguest
         </div>
-
-        <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
-          @csrf
-        </form>
-      @endguest
+      </div>
     </nav>
 
 
