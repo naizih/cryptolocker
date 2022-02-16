@@ -23,7 +23,7 @@ class UtilisateursController extends Controller
         if (Auth::user()->email == $users->first()->email ){
             return view('utilisateurs.afficher_utilisateurs', ['users' => $users]);
         }else{
-            abort(401);
+            return redirect()->back()->with("fail", "Vous n'avez pas le droit.");
         }
     }
 
@@ -52,12 +52,28 @@ class UtilisateursController extends Controller
     public function store(Request $request, User $user)
     {
         //
-        if (Auth::user()->email == $users->first()->email ){
+        if (Auth::user()->email == $user->first()->email ){
             $validator = $request->validate([
                 'name' => 'required|max:255',
                 'email' => 'required|unique:users|email|max:255',
-                'password' => 'required|between:8,255|confirmed',
+                'password' => 'required|between:8,100|confirmed',
                 'password_confirmation' => 'required|same:password',
+            ],[
+                'name.required' => 'Le nom doit être rempli. ',
+                'name.max' => 'Le nom ne doit pas dépasser 255 caractères.',
+
+                'email.required' => 'Le mail doit être rempli.',
+                'email.unique' => 'Le mail existe déja.',
+                'email.email' => 'Le mail que vous avez écrie n\'est pas valide.',
+                'email.max' => 'Le mail ene doit pas dépasser 255 caractères.',
+
+                'password.required' => 'Le mot de passe doit être rempli.',
+                'password.between' => 'Le mot de passe doit être 8-100 caractères.',
+                'password.confirmed' => 'Le mot de passe de confirmation est différent du mot de passe.',
+
+                'password_confirmation.required' => 'le mot de passe de confirmation doit être rempli .',
+                'password_confirmation.same' => 'Le mot de passe de confirmation est différent du mot de passe.',
+
             ]);
 
 
@@ -84,6 +100,8 @@ class UtilisateursController extends Controller
     public function show($id)
     {
         //
+        $user = User::find($id);
+        return view('utilisateurs.profile_utilisateur', ['utilisateur' => $user]);
     }
 
     /**
@@ -96,7 +114,7 @@ class UtilisateursController extends Controller
     {
         //
         $users = User::first();
-        if (Auth::user()->email == $users->email ){
+        if (Auth::user()->email == $users->email || Auth::user()->id == $id ){
             $user = User::whereId($id)->first();
             return view('utilisateurs.modifier_utilisateurs', ['user' => $user]);
         }else{
@@ -115,7 +133,9 @@ class UtilisateursController extends Controller
     public function update(Request $request, User $user)
     {
         //
-        if (Auth::user()->email == $users->first()->email ){
+        $requested_user = $user->find($request->id)->email;
+
+        if (Auth::user()->email == $user->first()->email || Auth::user()->email == $requested_user ){
             if($request->password == NULL) {
                 $request->validate([
                     'name' => 'required|max:50',
@@ -148,7 +168,11 @@ class UtilisateursController extends Controller
             $user->save();
 
 
-            return redirect('/utilisateurs')->with('message', "Vous avez Modifé avec succès le utilisateur ".$request->name);
+            if (Auth::user()->email === $requested_user) {
+                return redirect('/utilisateur/'.Auth::user()->id.'/profile')->with('message', "Vous avez Modifé avec succès le utilisateur ".$request->name);   
+            }else{
+                return redirect('/utilisateurs')->with('message', "Vous avez Modifé avec succès le utilisateur ".$request->name);
+            }
         }else{
             abort(401);
         }
@@ -163,7 +187,7 @@ class UtilisateursController extends Controller
      */
     public function destroy(User $user, $id)
     {
-        if (Auth::user()->email == $users->first()->email ){
+        if (Auth::user()->email == $user->first()->email ){
            // supprimer la ligne correspondance dans le base de données.
            $user->where('id', $id)->delete();        
            return redirect('/utilisateurs')->with('message', "Le utilisateur est supprimer avec succès.");

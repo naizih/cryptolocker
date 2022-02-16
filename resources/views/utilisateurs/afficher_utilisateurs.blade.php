@@ -12,7 +12,7 @@
             <h2 class="px-2 py-3"> Utilisateurs </h2>
             <table class="table table-bordered table-striped">
                 <thead class="align-middle">
-                    <tr>
+                    <tr class="bg-dark text-white">
                         <th scope="col"> Nom </th>
                         <th scope="col"> Mail </th>
                         <th scope="col"> Actions </th>

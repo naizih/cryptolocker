@@ -13,11 +13,13 @@
     <div class="card p-4">
     <h4 class="display-8"> Affichage du fichier appat </h4>
 
+    <!--
     @if(Session::get('fail'))
         <div class="alert alert-danger">
             {{ Session::get('fail') }}
         </div>
     @endif
+    -->
 
     <!--
     @if ($errors->any())
@@ -54,7 +56,7 @@
     </div>  
     @endif
 
-    <table class="table table-striped mt-4 table-bordered rounded">
+    <table class="table table-striped mt-4 table-bordered">
       <thead class="table-primary text-capitalize text-center">
         <tr>
           @if(Auth::user())
@@ -72,7 +74,7 @@
       <tbody>
         @if(isset($table_fichier_hash))
         @foreach($table_fichier_hash ?? '' as $ligne )
-        <tr>
+        <tr class=' {{ $ligne->resultat_de_check == "NOT OK" ? "red-border-color" : " " }}'>
             @if(Auth::user())
               <td>
                 <input form="form" name="checkbox[]" type="checkbox" value="{{$ligne->id}}">

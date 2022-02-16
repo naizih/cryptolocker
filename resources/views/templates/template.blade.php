@@ -24,7 +24,7 @@
     <header></header>
 
     <!-- navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black mt-4 p-2 rounded">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black mt-4 p-2">
       <!-- <a class="navbar-brand" href="/">Cryptolocker</a>-->
       <img src="{{url('img/L.Koesio_50mm_CMJN.svg')}}" class="navbar navbar-brand" alt="" srcset="" id="logo">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,12 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ route('user.utilisateur') }}"> <i class="fa fa-users"></i> Utilisateurs</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('user.utilisateur-profile', Auth::user()->id) }}"> <i class="fa fa-user"></i> Profil</a>
+            </li>
             @endif
+            
             
 
 
@@ -69,7 +74,7 @@
                     onclick="event.preventDefault(); 
                     document.getElementById('logout-form').submit();"> 
                     <i class="fa fa-fw fa-sign-out"></i> 
-                {{ __('Logout')}}
+                    Se déconnecter 
               </a>
             </div>
 
@@ -83,9 +88,10 @@
 
 
 
+    
     @if ($errors->any())
     <div class="alert alert-danger">
-      <ul>
+      <ul class="list-unstyled">
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
         @endforeach
@@ -99,9 +105,9 @@
     </div>
     @endif
     
-    @if(\Session::get('error'))
+    @if(\Session::get('fail'))
     <div class="alert alert-danger">
-        <p> {{session::get('error')}}</p>
+        <p> {{session::get('fail')}}</p>
     </div>
     @endif
 
@@ -112,6 +118,11 @@
 
     
     <footer class="pt-1">
+      <div class="text-center p-4" >
+      Copyright &copy; 2022 &nbsp;
+      <a class="text-reset fw-bold"  target="_blank" href="https://koesio.com/"> koesio.com</a>
+    </div>
+    <!-- Copyright -->
         @yield('footer')
     </footer>
   </body>

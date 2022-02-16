@@ -96,6 +96,8 @@ Route::name('user.')->group(function(){
          Route::post('/utilisateur/{id}/supprimer', [UtilisateursController::class, 'destroy'])->name('utilisateur-delete', 'id');
          // IS Admin finished
 
+         Route::get('/utilisateur/{id}/profile', [UtilisateursController::class, 'show'])->name('utilisateur-profile', 'id');
+
         
 
         // Route pour se déconnecter
