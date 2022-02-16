@@ -21,7 +21,7 @@
                                         <th scope="col"> Serveur </th>
                                         <th scope="col"> Utilisateur </th>
                                         <th scope="col"> Dossier partagé </th>
-                                        <th scope="col"> partage montée </th>
+                                        <th scope="col"> Dossier Local </th>
                                         <th scope="col"> Actions </th>
                                         
                                 </tr>
@@ -43,7 +43,6 @@
                                                                 <input type="hidden" name="local_mount_path" value="{{$info->partage_monter}}">
                                                                 <button type="submit" class="btn btn-danger rounded mx-1"> Supprimer </button>
                                                         </form>
-                                                        <a href="{{route('user.edit-srv-partage', $info->id )}}" class="btn btn-primary rounded"> Modifier </a>
                                                 </div>
                                         </td>
                                         

@@ -22,23 +22,24 @@
             <small id="IPHelp" class="form-text text-muted"> Ecrire l'adresse IP ou nom de domain de serveur de dossier partage.</small>
         </div>
 
-
-        <div class="form-group">
-            <label for="exampleInputuser">Compte</label>
-            <input type="text" class="form-control" id="exampleInputuser" placeholder="Nom d'utilisateur" name="user" value="{{ old('user') }}">
-        </div>
-
-
         <div class="form-group">
             <label for="exampleInputSharedFile">Dossier partagé</label>
             <input type="text" class="form-control" id="exampleInputSharedFile" placeholder="Nom de dossier partagé" name="shared_folder" value="{{ old('shared_folder') }}">
         </div>
 
         <div class="form-group">
+            <label for="exampleInputuser">Nom utilisateur</label>
+            <input type="text" class="form-control" id="exampleInputuser" placeholder="Nom d'utilisateur" name="user" value="{{ old('user') }}">
+        </div>
+
+
+        <!--
+        <div class="form-group">
             <label for="exampleInputMountPath"> Dossier locale </label>
             <input type="text"  class="form-control" id="exampleInputMountPath" aria-describedby="partage_name_Help" placeholder="Nom de dossier où partage va monter" name="local_mount_path" value="{{ old('local_mount_path') }}">
             <small id="partage_name_Help" class="form-text text-muted"> on crée un dossier locale est on l'associe avec le dossier partagé, le dossier de montage de partage par default est /mnt .</small>
         </div>
+        -->
 
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>

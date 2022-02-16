@@ -9,17 +9,35 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\SrvPartageController;
 
+use App\Http\Controllers\UtilisateursController;
+
 
 
 //Route pour recuperer tous les données en format json.
 //Route::get('/table-fichier',[HashFileModelController::class, 'api_datashow']);
 
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
+
+$user_table = User::all();
+$count = $user_table->count();
+
+
+
+
+//'register' => $count == 0 || Auth::user  ? true : false , // Registration Routes...
 Auth::routes([
-    'register' => false, // Registration Routes...
+    'register' => $count == 0 ? true : false, // Registration Routes...
     'reset' => false, // Password Reset Routes...
     'verify' => false, // Email Verification Routes...
 ]);
+
+
+
+
+//Route::get('/reg', [HashFileModelController::class, 'test'])->name('test_try');
 
 
 Route::name('user.')->group(function(){
@@ -31,7 +49,7 @@ Route::name('user.')->group(function(){
 
     Route::middleware(['auth:web', 'PreventBackHistory'])->group(function(){
 
-
+        
         //Tous les requets viens et qui part de la page config 
         Route::get('/connected', [ClientInformationController::class, 'verification_de_connexion']);       // verification de connexion
 
@@ -58,8 +76,6 @@ Route::name('user.')->group(function(){
         Route::get('/config/srv-partage/ajouter', [SrvPartageController::class, 'create'])->name('afficher-ajouter-srv-partage');   // CREATE
         Route::post('/config/srv-partage/ajouter', [SrvPartageController::class, 'store'])->name('ajouter-srv-partage');            // STORE
         Route::delete('/config/srv-partage/delete', [SrvPartageController::class, 'destroy'])->name('supprimer-srv-partage');       // DEELTE
-        Route::get('/config/srv-partage/{id}/edit', [SrvPartageController::class, 'edit'])->name('edit-srv-partage', 'id');         //EDIT
-        Route::post('/config/srv-partage/{id}/update', [SrvPartageController::class, 'update'])->name('update-srv-partage', 'id');         // UPDATE
         
 
         //route pour selectioner le fichier 
@@ -69,7 +85,21 @@ Route::name('user.')->group(function(){
         // Route pour checker ou supprimer le fichier, il prendre tous les box sélectioner et verifé si le boutton cliquée est check ou supprimer, et il façe la tache correspondance. 
         Route::post('/check_supprimer', [HashFileModelController::class, 'check_supprimer']);
 
+
+
+         // Route pour gestion des utilisateurs ( CRUD )
+         Route::get('/utilisateurs', [UtilisateursController::class, 'index'])->name('utilisateur');
+         Route::get('/utilisateur/ajouter', [UtilisateursController::class, 'create'])->name('utilisateur-register');
+         Route::post('/utilisateur/ajouter', [UtilisateursController::class, 'store'])->name('nouveau-utilisateur');
+         Route::get('/utilisateur/{id}/modifier', [UtilisateursController::class, 'edit'])->name('modifier-utilisateur', 'id');
+         Route::post('/utilisateur/update', [UtilisateursController::class, 'update'])->name('utilisateur-update');
+         Route::post('/utilisateur/{id}/supprimer', [UtilisateursController::class, 'destroy'])->name('utilisateur-delete', 'id');
+         // IS Admin finished
+
+        
+
         // Route pour se déconnecter
         Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
     });
 });
+

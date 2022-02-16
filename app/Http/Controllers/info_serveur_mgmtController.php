@@ -26,7 +26,7 @@ class info_serveur_mgmtController extends Controller {
         ]);
         
         info_serveur_mgmt::create([
-            'IP' =>  request('adresse_ip'),
+            'IP_DNS' =>  request('adresse_ip'),
             'port' => '80',
         ]);
         return redirect('/config/info_ser_mgmt')->with('message', "IP/DNS du serveur a été enregistré, le port utilisé est 80.");
@@ -46,7 +46,7 @@ class info_serveur_mgmtController extends Controller {
         ]);
         
         $info_serveur->update([
-            'IP' =>  request('adresse_ip'),
+            'IP_DNS' =>  request('adresse_ip'),
         ]);
 
         return redirect('/config/info_ser_mgmt')->with('message', "IP/DNS a mis à jour avec succes, le port utilisé est 80");

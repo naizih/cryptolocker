@@ -24,19 +24,35 @@
     <header></header>
 
     <!-- navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-4 p-2 rounded">
-      <a class="navbar-brand" href="/">Cryptolocker</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black mt-4 p-2 rounded">
+      <!-- <a class="navbar-brand" href="/">Cryptolocker</a>-->
+      <img src="{{url('img/L.Koesio_50mm_CMJN.svg')}}" class="navbar navbar-brand" alt="" srcset="" id="logo">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{{ route('user.accueil') }}"> Accueil <span class="sr-only"></span></a>
+              <a class="nav-link" href="{{ route('user.accueil') }}"> <i class="fa fa-home"></i> Accueil <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.config') }}"> Config</a>
+              <a class="nav-link" href="{{ route('user.config') }}"> <i class="fa fa-cog"></i> Configuration</a>
             </li>
+
+            @if (Auth::check())
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('user.utilisateur') }}"> <i class="fa fa-users"></i> Utilisateurs</a>
+            </li>
+            @endif
+            
+
+
+            @if (Route::has('register'))
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('register') }}"> Utilisateurs</a>
+            </li>
+            @endif
+
         </ul>
       
       
@@ -83,6 +99,11 @@
     </div>
     @endif
     
+    @if(\Session::get('error'))
+    <div class="alert alert-danger">
+        <p> {{session::get('error')}}</p>
+    </div>
+    @endif
 
     
     

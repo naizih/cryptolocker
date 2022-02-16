@@ -9,6 +9,6 @@ class info_serveur_mgmt extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'IP', 'domain_name', 'port'
+        'IP_DNS', 'port'
     ];
 }

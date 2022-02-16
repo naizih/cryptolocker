@@ -1,5 +1,6 @@
 @extends('templates.template')
 
+
 @section('content')
 <section style="min-height: 40vh">
   <div id="app">
@@ -8,9 +9,9 @@
     <!-- Pour afficher le tableau de vue.js-->
     <!--<page-accueil></page-accueil>-->
   </div>
-  
+
     <div class="card p-4">
-    <h4 class="display-8"> Affichage du fichier Hash </h4>
+    <h4 class="display-8"> Affichage du fichier appat </h4>
 
     @if(Session::get('fail'))
         <div class="alert alert-danger">
@@ -36,7 +37,7 @@
 
     <div class="btn-toolbar p-3">
       <div class="btn-group me-1">
-        <a href="choisir_fichier_appat"  class="btn btn-primary">Ajouter le fichier</a>
+        <a href="choisir_fichier_appat"  class="btn btn-primary"> <i class="fa fa-folder"></i> Ajouter le fichier</a>
       </div>
 
       <!-- form Supprimer -->

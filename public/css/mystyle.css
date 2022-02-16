@@ -24,3 +24,8 @@
     font-family: 'Times New Roman', Times, serif;
 }
 
+
+#logo{
+    max-width: 100px;
+    left: 15px;
+}

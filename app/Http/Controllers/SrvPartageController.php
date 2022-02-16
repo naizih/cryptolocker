@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\File;
 
 class SrvPartageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -23,64 +19,69 @@ class SrvPartageController extends Controller
         return view('serveur_partage.view_serveur_partage', ['info_serveur' => $server_info]);   
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('serveur_partage.add_serveur_partage'); 
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-
 
     public function store(Request $request, Srv_partage $partag ) {
 
         $partag = new Srv_partage;  // instance de mode Srv_partage
+        $last_record = Srv_partage::latest()->first();
 
+        $directory_name = 1;
+
+        // Partage Drive Name sync with database....
+        if ($last_record){
+            $directory_name = $last_record->partage_monter + 1;
+        }
+        
         // Validation des données
         $request->validate([
             'ip' => 'required',
             'user' => 'required',
             'shared_folder' => 'required',
-            'local_mount_path' => 'required',
             'password' => 'required',
         ]);
 
         
         // Créé le dossier sur lequel on va monter le partage
-        if(Storage::exists($request->local_mount_path)){
-            return redirect()->back()->withErrors(['message' => 'Un dossier avec nom '. $request->local_mount_path.' existe déja.'])->withInput();
+        if(Storage::exists($request->directory_name)){
+            return redirect()->back()->withErrors(['message' => 'Un dossier avec nom '. $directory_name.' existe déja.'])->withInput();
         }
-        Storage::makeDirectory($request->local_mount_path);
-
+        Storage::makeDirectory($directory_name);
+        
 
         // Get current working directory
         $old_path = getcwd();
         $n = chdir(base_path().'/app/Bash/');       // changer le dossier au dosssier ou se trouve le fichier de script.
 
         // Lancer le commande
-        system('./mount.sh '.$request->user.' '.$request->password.' '.$request->ip.' '.$request->shared_folder.' '.$request->local_mount_path);
+        //exec("echo 'user' | sudo -S mount.cifs -o user=".$request->user.",pass=".$request->password.",vers=1.0 //".$request->ip."/".$request->shared_folder." /home/user/cryptolocker_V1.3/cryptolocker/storage/app/".$directory_name, $output, $return);
 
-        chdir($old_path);       // change working diretory to default working directory.
+        exec("./mount.sh $request->user $request->password $request->ip $request->shared_folder $directory_name", $output, $return);
+
+
+
+        if ($return == 0){
+            // ajouter le nouveau partage dans le base de données
+            $partag->create([
+                'ip' =>  $request->ip,
+                'utilisateur' =>  $request->user,
+                'dossier_partager' => $request->shared_folder,
+                'partage_monter' => $directory_name,
+                'password' => $request->password,
+            ]);
+        }else{
+            Storage::deleteDirectory($directory_name);
+            return redirect('/config/srv-partage')->with('error', "Votre identifiant sont incorrects!");
+        }
         
-        // ajouter le nouveau partage dans le base de données
-        $partag->create([
-            'ip' =>  $request->ip,
-            'utilisateur' =>  $request->user,
-            'dossier_partager' => $request->shared_folder,
-            'partage_monter' => $request->local_mount_path,
-            'password' => $request->password,
-        ]);
+        chdir($old_path);       // change working diretory to default working directory.
+
 
         // redirigé avec le message de succès.
         return redirect('/config/srv-partage')->with('message', "Votre Nouveau compte de partage est ajouter avec succès.");
@@ -105,8 +106,7 @@ class SrvPartageController extends Controller
      */
     public function edit(Srv_partage $srv_partage, $id)
     {
-        $server_info = $srv_partage->whereId($id)->first();
-        return view('serveur_partage.edit_serveur_partage', ['info_partage' => $server_info]); 
+        //
         
     }
 
@@ -119,38 +119,7 @@ class SrvPartageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Récuperier tous les données.
-        //$data = $request->except('_method','_token','submit');
-        
-        //validation de données
-        $request->validate([
-            'ip' => 'required',
-            'user' => 'required',
-            'shared_folder' => 'required',
-            'local_mount_path' => 'required',
-            'password' => 'required',
-        ]);
-
-        // Trouver le ligne correpondance
-        $srv_partage = Srv_partage::find($id);
-
-        //mise à jour des données dans le base de donnée.
-        $srv_partage->update([
-            'ip' =>  $request->ip,
-            'utilisateur' =>  $request->user,
-            'dossier_partager' => $request->shared_folder,
-            'partage_monter' => $request->local_mount_path,
-            'password' => $request->password,
-        ]);
-
-        // Quand on mis à jour un partage on relance notre script
-        $old_path = getcwd();                       // Get current working directory
-        $n = chdir(base_path().'/app/Bash/');       // changer le dossier au dosssier ou se trouve le fichier de script.
-        system('./mount.sh '.$request->user.' '.$request->password.' '.$request->ip.' '.$request->shared_folder.' '.$request->local_mount_path);
-        chdir($old_path);       // change working diretory to default working directory.
-
-
-        return redirect('/config/srv-partage')->with('message', "Votre compte de partage est modifié avec succès.");
+        //
     }
 
     /**

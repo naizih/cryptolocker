@@ -9,18 +9,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 
-use App\Models\Client_information;
 Use \Carbon\Carbon;
-
-
+use App\Models\User;
 
 class HashFileModelController extends Controller
 {
+
+
     public function index() {
+
+
         $data = Hash_File_Model::all();
-        
-        $info_client = Client_information::all();
-        return view('accueil', ['information_client' => $info_client, 'table_fichier_hash' => $data]);
+        $first_created_user = User::first();
+
+        return view('accueil', ['table_fichier_hash' => $data, 'utilisateur' => $first_created_user]);
     }
 
 
@@ -52,7 +54,7 @@ class HashFileModelController extends Controller
                 if ($dh = opendir($dir)) { // si il y a un autre dossier dans le dossier où on est
                     while (($file = readdir($dh)) !== false) {
                         // le . et .. sont des directory par default dans linux
-                        if($file === '.' || $file === '..') { continue; }
+                        if($file === '.' || $file === '..' || $file === '.gitignore') { continue; }
 
                         // si on clique sur le fichier 
                         if(filetype($dir.'/'.$file) === 'file'){
@@ -106,7 +108,7 @@ class HashFileModelController extends Controller
             'Trois_check_not_ok' => Carbon::now()->toDateTimeString(),
         ]);
         
-        return redirect('accueil');
+        return redirect('/accueil')->with('message', "Le fichier est ajouter avec success et le hash de ce fichier est calculé aussi.");
         //return response()->json(['success' => 'la fichier est ajouter avec succces.']);
     }
 
@@ -149,6 +151,7 @@ class HashFileModelController extends Controller
             }
             //return redirect('/');
         }
+        return redirect('/accueil')->with('error', "Les informations de fichier est supprimer avec success.");
         //return response("vous n'avez pas selectionée aucune ligne pour supprimer ! <br> Pour aller à l'accueil cliquer <a href='/'> ici .</a>");
        // return redirect('/');
     }

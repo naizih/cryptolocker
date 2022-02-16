@@ -11,10 +11,10 @@
                 <div class="form-group row">
                     <label for="inputCompany" class="col-sm-2 col-form-label"> IP/DNS :</label>
                     <div class="col-sm-8">
-                        @if (!empty($info_serveur['IP']))
-                        <p>{{$info_serveur['IP']}}</p>
+                        @if (!empty($info_serveur['IP_DNS']))
+                        <p>{{$info_serveur['IP_DNS']}}</p>
                         @else
-                        <input type="text" class="form-control" name="adresse_ip" id="inputCompany" placeholder="@ IP">
+                        <input type="text" class="form-control" name="adresse_ip" id="inputCompany" placeholder="Adresse IP/DNS">
                         @endif
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="form-group row pt-3">
                     <label for="inputEmail" class="col-sm-2 col-form-label"> &nbsp;</label>
                     <div class="col-sm-8">
-                        @if (!empty($info_serveur['IP']))
+                        @if (!empty($info_serveur['IP_DNS']))
                         <a class="btn btn-outline-secondary" href="/modifier_serveur_info/{{$info_serveur['id']}}/modifier"> Modifier </a>
                         @else
                             <button type="submit" class="btn btn-primary">Ajouter</button>

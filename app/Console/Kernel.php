@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         Commands\CheckAllFile::class,
+        Commands\CheckSentToServer::class,
     ];
 
     /**

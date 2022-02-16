@@ -20,8 +20,10 @@ array_pop($url_back);
 <div class="row">
   <div class="alert alert-info mt-3" role="alert">
     <p> <strong> user@cryptolocker:$</strong> &nbsp {{ $url }} </p>
-    <p> quand la coleur de dossier passe en vert, c'est indique que c'est un fichier, pour ajouter ce fichier, juste clique sur le fichier </p>
+    <p> quand la coleur de dossier passe en vert, c'est indique que c'est un fichier, pour ajouter ce fichier, clique sur le fichier </p>
   </div>
+
+  
 
   @if ($url && $url != '/' )
   <div class="col-sm-2">

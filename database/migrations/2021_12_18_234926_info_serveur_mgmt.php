@@ -16,7 +16,7 @@ class InfoServeurMgmt extends Migration
         //
         Schema::create('info_serveur_mgmts', function (Blueprint $table) {
             $table->id();
-            $table->string('IP');
+            $table->string('IP_DNS');
             $table->string('port');
             $table->timestamps();
         });

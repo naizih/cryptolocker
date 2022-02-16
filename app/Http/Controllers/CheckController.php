@@ -46,6 +46,7 @@ class CheckController extends Controller {
                 if (is_file($file_path)){
                     $hash = md5_file($file_path);         // recalculer le hash du fichier partagé.
                 }else{
+                    DB::table('hash__file__models')->where('id', $checkbox[$index])->update(['resultat_de_check' => "NOT OK"]);
                     return redirect()->back()->with('fail', 'le fichier partagé n\'exist pas!');
                 }
 
@@ -54,7 +55,7 @@ class CheckController extends Controller {
 
                 if ($hash != $hash_stored){                    
                     DB::table('hash__file__models')->where('id', $checkbox[$index])->update(['resultat_de_check' => "NOT OK"]);
-
+                    
                     //array_push($error, "\r\n File name : ".$row_database->nom_de_fichier . " => Nouveau Hash :" .$hash);   
                 }else{  // si le hash du fichier n'est pas different mettre à jour la column Trois_check_not_ok.
                     DB::table('hash__file__models')->where('id', $checkbox[$index])->update(['Trois_check_not_ok' => Carbon::now()->toDateTimeString(), 'resultat_de_check' => 'OK']);

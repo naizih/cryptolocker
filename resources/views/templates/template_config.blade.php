@@ -8,19 +8,19 @@
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link {{ Route::current()->getName() == 'user.config' ? 'active text-primary' : 'text-dark' }}" aria-controls="home" href="{{route('user.config')}}" role="tab" data-toggle="tab"> Info Client </a>
+                <a class="nav-link {{ Route::current()->getName() == 'user.config' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config')}}" role="tab" data-toggle="tab"> Info Client </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ Route::current()->getName() == 'user.config-serv-mgmt' ? 'active text-primary ' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-serv-mgmt')}}" role="tab" data-toggle="tab"> Info du serveur Mgmt </a>
+                <a class="nav-link {{ Route::current()->getName() == 'user.config-serv-mgmt' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-serv-mgmt')}}" role="tab" data-toggle="tab"> Info du serveur Mgmt </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ Route::current()->getName() == 'user.config-script-time' ? 'active text-primary ' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-script-time')}}" role="tab" data-toggle="tab"> Temps de scripts </a>
+                <a class="nav-link {{ Route::current()->getName() == 'user.config-script-time' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-script-time')}}" role="tab" data-toggle="tab"> Temps de scripts </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ Route::current()->getName() == 'user.config-info-srv-partage' ? 'active text-primary ' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-info-srv-partage')}}" role="tab" data-toggle="tab"> Info du serveur partage </a>
+                <a class="nav-link {{ Route::current()->getName() == 'user.config-info-srv-partage' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-info-srv-partage')}}" role="tab" data-toggle="tab"> Info du serveur partage </a>
             </li>
             
         </ul>

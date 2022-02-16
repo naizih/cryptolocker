@@ -24,8 +24,14 @@ class ClientInformationController extends Controller
 
     public function verification_de_connexion(){
 
-        $server_ip = info_serveur_mgmt::first()->IP;            //GET serveur adresse IP.
         //$server_port = "81";  
+
+        $info_serveur_mgmt = info_serveur_mgmt::all();
+        if (count($info_serveur_mgmt) > 0 ){
+            $server_ip = $info_serveur_mgmt->first()->IP_DNS;          //GET serveur adresse IP.
+        }else{
+            return redirect()->back()->withErrors("Vous n'avez pas définir encore l'adresse IP/DNS du serveur management.")->withInput();
+        }
 
         $url = $server_ip.'/api/connexion';
         $ch = curl_init($url);
@@ -36,7 +42,8 @@ class ClientInformationController extends Controller
         $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
         curl_close($handle);
 
-        
+
+    
         // condition pour envoyer la reponse de connexion au utilisateur.
         if($httpCode == "200"){
             $res = Session()->flash('message', "Vous etes bien connecté au serveur management");
@@ -60,16 +67,18 @@ class ClientInformationController extends Controller
             'email' => 'required',
         ]);
 
+        
+        if (!$client->all()->count() > 0 ){
+            $client->create([
+                'nom_entreprise' =>  $request->nom_entreprise,
+                'site' =>  $request->site,
+                'nom_client' => $request->nom_client,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
+            ]);
+        }
 
-        $client->create([
-            'nom_entreprise' =>  $request->nom_entreprise,
-            'site' =>  $request->site,
-            'nom_client' => $request->nom_client,
-            'mobile' => $request->mobile,
-            'email' => $request->email,
-        ]);
-
-
+/*
         $file_result[] = [
             //information de client
             'nom_entreprise' =>  $request->nom_entreprise,
@@ -85,16 +94,17 @@ class ClientInformationController extends Controller
             'last_check' => '',
             'alert' => false
         ];
-
-        $response = HTTP::post('http://192.168.141.174/api/resultat_check', $file_result);
-        
-
-        //$server_ip = info_serveur_mgmt::first()->IP;
-        //$server_port = '81';
-        //dd($server_ip);
+*/
 
         /*
-        $post = HTTP::post('192.168.141.174:81/api/update_client', [
+        // On peut utiliser ce methode, ça marche aussi
+        $server_ip = info_serveur_mgmt::first()->IP;
+        $response = HTTP::post($server_ip.'/api/resultat_check', $file_result);
+        */
+
+
+        $server_ip = info_serveur_mgmt::first()->IP_DNS;      
+        $post = HTTP::post($server_ip.'/api/update_client', [
             'nom_entreprise' =>  $request->nom_entreprise,
             'site' =>  $request->site,
             'nom_client' => $request->nom_client,
@@ -106,9 +116,8 @@ class ClientInformationController extends Controller
 
         $response = $post->json();
         return redirect('/config')->with('message', "Le client est ajouter avec success dans le serveur client ".$response['message']);
-        */
-        return redirect('/config')->with('message', "Le client a été ajouté avec success! et ".$response['message']);
 
+        //return redirect('/config')->with('message', "Le client a été ajouté avec success! et ".$response['message']);
     }
 
 
@@ -139,13 +148,9 @@ class ClientInformationController extends Controller
 
 
         // POST information de client au API/clietns si le client change les information. 
-
-        //$server_ip = info_serveur_mgmt::first()->IP;
-        //$server_port = '81';
-        //dd($server_ip);
-
-        /*
-        $post = HTTP::post('192.168.141.174:81/api/update_client', [
+        $server_ip = info_serveur_mgmt::first()->IP_DNS;
+        
+        $post = HTTP::post($server_ip.'/api/update_client', [
             'nom_entreprise' =>  $request->nom_entreprise,
             'site' =>  $request->site,
             'nom_client' => $request->nom_client,
@@ -155,8 +160,8 @@ class ClientInformationController extends Controller
 
         $response = $post->json();
         return redirect('/config')->with('message', "Le client est mise à jour avec success dans le serveur client ".$response['message']);
-        */
-        return redirect('/config')->with('message', "vous avez actualisé les informations du client avec succes!.");
+        
+        //return redirect('/config')->with('message', "vous avez actualisé les informations du client avec succes!.");
     }
 
 

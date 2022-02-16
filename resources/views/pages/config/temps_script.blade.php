@@ -41,6 +41,7 @@
                     </select> 
                     @endif
                 </strong> minutes.</p>
+                <!-- <p class="alert alert-danger"> <small> Il envoie alerte au serveur management, si il y a 3 fois plus de different entre le temps actuelle et le temps de dernier check</small></p> -->
             </div>
         </div> 
 
