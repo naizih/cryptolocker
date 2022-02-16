@@ -39,6 +39,7 @@ class SrvPartageController extends Controller
             $directory_name = $last_record->partage_monter + 1;
         }
         
+
         // Validation des données
         $request->validate([
             'ip' => 'required',
@@ -61,8 +62,10 @@ class SrvPartageController extends Controller
 
         // Lancer le commande
         //exec("echo 'user' | sudo -S mount.cifs -o user=".$request->user.",pass=".$request->password.",vers=1.0 //".$request->ip."/".$request->shared_folder." /home/user/cryptolocker_V1.3/cryptolocker/storage/app/".$directory_name, $output, $return);
+        
+        $local_dir = storage_path().'/app/'.$directory_name;
 
-        exec("./mount.sh $request->user $request->password $request->ip $request->shared_folder $directory_name", $output, $return);
+        exec("./mount.sh $request->user $request->password $request->ip $request->shared_folder $local_dir", $output, $return);
 
 
 
@@ -72,7 +75,7 @@ class SrvPartageController extends Controller
                 'ip' =>  $request->ip,
                 'utilisateur' =>  $request->user,
                 'dossier_partager' => $request->shared_folder,
-                'partage_monter' => $directory_name,
+                'partage_monter' =>  $directory_name,
                 'password' => $request->password,
             ]);
         }else{

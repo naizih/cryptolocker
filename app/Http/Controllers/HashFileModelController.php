@@ -42,7 +42,7 @@ class HashFileModelController extends Controller
 
     //fonction  pour choisir le fichier qui va etre check
     public function select_file( Request $folder ){
-        //$dir = '/home/user/cryptolocker_V1.3/cryptolocker/storage/app/';      // l'endroit de montage de partage
+        //$dir = '/home/user/cryptolocker_V1.3/cry  ptolocker/storage/app/';      // l'endroit de montage de partage
         $dir = storage_path().'/app';
 
         // si le variable file est present dans le URL
