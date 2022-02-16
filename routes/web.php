@@ -20,10 +20,13 @@ use App\Http\Controllers\UtilisateursController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-
-$user_table = User::all();
-$count = $user_table->count();
-
+// Si pour checker si la table existe ou pas sinon php artisan migrate ne va pas marché.
+if (\Schema::hasTable('users')){
+    $user_table = User::all();
+    $count = $user_table->count();
+}else{
+    $count = 0;
+}
 
 
 

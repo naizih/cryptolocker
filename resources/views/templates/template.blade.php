@@ -48,8 +48,7 @@
               <a class="nav-link" href="{{ route('user.utilisateur-profile', Auth::user()->id) }}"> <i class="fa fa-user"></i> Profil</a>
             </li>
             @endif
-            
-            
+
 
 
             @if (Route::has('register'))
