@@ -10,10 +10,11 @@
     @method('PUT')
     @csrf
 
+
     <div class="form-group row">
         <label for="inputCompany" class="col-sm-2 col-form-label"> IP adresse :</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" name="adresse_ip" id="inputCompany" value="{{$info_serveur->IP}}">        
+            <input type="text" class="form-control" name="adresse_ip" id="inputCompany" value="{{$info_serveur->IP_DNS}}">        
         </div>
     </div>
             
