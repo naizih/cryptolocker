@@ -80,7 +80,7 @@ class SrvPartageController extends Controller
             ]);
         }else{
             Storage::deleteDirectory($directory_name);
-            return redirect('/config/srv-partage')->with('error', "Votre identifiant sont incorrects!");
+            return redirect()->back()->with('error', "Votre identifiant sont incorrects!")->withInput();
         }
         
         chdir($old_path);       // change working diretory to default working directory.

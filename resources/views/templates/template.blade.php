@@ -104,9 +104,9 @@
     </div>
     @endif
     
-    @if(\Session::get('fail'))
+    @if(\Session::get('error'))
     <div class="alert alert-danger">
-        <p> {{session::get('fail')}}</p>
+        <p> {{session::get('error')}}</p>
     </div>
     @endif
 
