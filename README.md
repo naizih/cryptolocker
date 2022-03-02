@@ -142,5 +142,5 @@ Et puis lancer la commande suivant dans le repertoire <strong> /var/www/html/cry
 ```
 php artisan schedule:run
 ```
-Aller sur le navigateur et connecté-vous au serveur apache port 80
+Aller sur le navigateur et connecté-vous au serveur apache sur le port 80
 @ip-machine:80
