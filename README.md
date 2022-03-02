@@ -54,7 +54,7 @@ sudo apt-get install php-sqlite3
 
 ## Installation composer et passé au Version 2
 
-par défaut le dossier ** /var/www/html ** n'a pas de permission d'ecriteur, alors soit donner le permission à ce dossier soit aller dans le repértoire /home et finir cette étap.
+par défaut le dossier <strong> /var/www/html </strong> n'a pas de permission d'ecriteur, alors soit donner le permission à ce dossier soit aller dans le repértoire /home et finir cette étap.
 ```
 sudo apt install composer
 sudo curl -s https://getcomposer.org/installer | php
@@ -72,12 +72,12 @@ sudo apt-get install cifs-utils
 
 
 ## Configuration de serveur apache2 pour laravel
-Aller dans le fichier ** /etc/apache2/sites-available/000-default.conf ** et modifier la ligne suivant DocumentRoot:
+Aller dans le fichier <strong> /etc/apache2/sites-available/000-default.conf </strong> et modifier la ligne suivant DocumentRoot:
 ```
 DocumentRoot /var/www/html/cryptolocker/public
 ```
 
-ajouter le code suivant à la fin de fichier ** /etc/apache2/apache2.conf **  
+ajouter le code suivant à la fin de fichier <strong> /etc/apache2/apache2.conf </strong>  
 ```
 <Directory /var/www/html/cryptolocker>
         Options Indexes FollowSymLinks
@@ -114,7 +114,7 @@ sudo chmod -R g+rw ../cryptolocker/
 
 pour monter le partage à partie de apache on a choisir le methode suivant
 
-dans le fichier ** sudo nano /etc/apache2/envvars ** modifé le nom d'utilisateur et group de serveur apache.
+dans le fichier <strong> sudo nano /etc/apache2/envvars </strong> modifé le nom d'utilisateur et group de serveur apache.
 donner le nom d'utilisateur, l'utilisateur courant et le group www-data
 
 ```
@@ -122,7 +122,7 @@ export APACHE_RUN_USER=user
 export APACHE_RUN_GROUP=www-data
 
 ```
-Et ensuite modifier le mot de pass dans le fichier script ** mount.sh ** et ** umount.sh ** que se trouve dans le dossier /cryptolocker/app/Bash , donner le mot de pass d'utilisateur que vous avez écrie dans le fichier ** /etc/apache2/envers **
+Et ensuite modifier le mot de pass dans le fichier script <strong> mount.sh </strong> et <strong> umount.sh </strong> que se trouve dans le dossier <strong> /cryptolocker/app/Bash </strong>, donner le mot de pass d'utilisateur que vous avez écrie dans le fichier <strong> /etc/apache2/envers </strong>
 
 ```
 echo 'user' | sudo -S
@@ -133,12 +133,12 @@ Ci-dessus le 'user' c'est le mot de passe de utilisateur user vous devez changé
 
 ## Autorisé lancement des Taches Automatique
 
-En tappant la commande ** crontab -e ** ajouter la ligne suivant à la fin de fichier pour fonctionner les taches automatiques.
+En tappant la commande <strong> crontab -e </strong> ajouter la ligne suivant à la fin de fichier pour fonctionner les taches automatiques.
 ```
 * * * * * php /var/www/html/cryptolocker/artisan schedule:run 1>> /dev/null 2>&1
 ```
 
-Et puis lancer la commande suivant dans le repertoire ** /var/www/html/cryptolocker **
+Et puis lancer la commande suivant dans le repertoire <strong> /var/www/html/cryptolocker </strong>
 ```
 php artisan schedule:run
 ```
