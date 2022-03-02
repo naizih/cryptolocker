@@ -33,7 +33,7 @@ sudo git clone --branch v1.5 https://github.com/naizih/cryptolocker.git
 ```
 
 Si le ficheir db.sqlite3 n'existe pas crée le, si il existe supprimer et recrée car il y a déja les données dans ce fichier.
-verifié si le fichier .env existe, si il n'existe pas créé le, et verifié aussi le chemin de base de données ** DB_DATABASE ** .
+verifié si le fichier .env existe, si il n'existe pas créé le, et verifié aussi le chemin de base de données <strong> DB_DATABASE </strong> .
 ```
 ls -la
 ```
