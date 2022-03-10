@@ -7,60 +7,140 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Application Client
+c'est une simple application de detection de changement dans les fichiers appat ( c'est le ficheir à surveiller que se trouve  sur le serveur de fichiers.)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation d'application
+on a utilisé l'OS ubuntu pour ce test, vous pourriez utiliser les autres OS linux.
+Les étaps pour mettre en place l'application sont:
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## installation du serveur web (apache)
+```
+sudo apt-get install apache2
+sudo systemctl enable apache2
+sudo systemctl start apache2
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
 
-## Laravel Sponsors
+## Installation des dependances de base et clonner le projet
+```
+sudo apt-get install git wget curl
+cd /var/www/html
+sudo git clone --branch v1.5 https://github.com/naizih/cryptolocker.git
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Si le ficheir db.sqlite3 n'existe pas il faut créer, si il existe déjà il faut supprimer et recrée car il y a déja les données dans ce fichier.
+verifié si le fichier .env existe, si il n'existe pas créé le et verifié aussi le chemin de la base de données  <strong> DB_DATABASE </strong> que se trouvé dans ce fichier s'il est correcté.
+```
+ls -la
+```
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
 
-## Contributing
+## Installation de php et dépendances
+```
+sudo apt install php7.4-cli php7.4-curl phpunit libapache2-mod-php7.4
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
 
-## Code of Conduct
+## installation de driver pour sqlite
+```
+sudo apt-get install php-sqlite3 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
 
-## Security Vulnerabilities
+## Installation de composer et passer à la Version 2
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+par défaut l'utilisateur n'a pas la permission d'ecriture su le dossier <strong> /var/www/html </strong>, alors soit donner le permission à ce dossier soit aller dans le repértoire /home et finir cette étap.
+```
+sudo apt install composer
+sudo curl -s https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+composer --version
+cd /var/www/html/cryptolocker
+sudo composer update
+```
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Installation de dépendance pour montage de drive 
+```
+sudo apt-get install cifs-utils 
+```
+
+
+## Configuration du serveur apache2 pour laravel
+Aller dans le fichier <strong> /etc/apache2/sites-available/000-default.conf </strong> et modifier la ligne suivant DocumentRoot:
+```
+DocumentRoot /var/www/html/cryptolocker/public
+```
+
+ajouter à la fin du fichier <strong> /etc/apache2/apache2.conf </strong>  le code suivant: 
+```
+<Directory /var/www/html/cryptolocker>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+</Directory>
+```
+
+et puis executer les commande suivant.
+```
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+```
+
+
+## Migrate
+```
+sudo php artisan migrate
+```
+
+## Droit
+changer les droits des fichiers du project avec les commandes suivants:
+```
+sudo chown -R $USER:www-data /var/www/html/cryptolocker
+sudo chmod -R 755 /var/www/html/cryptolocker
+sudo chmod -R 777 /var/www/html/cryptolocker/storage
+sudo chmod -R 775 /var/www/html/cryptolocker/bootstrap
+sudo chmod -R g+rw ../cryptolocker/
+```
+
+
+
+## Montage de Drive
+
+pour monter le partage à partie d'apache on a choisi le methode suivant:
+
+dans le fichier <strong> sudo nano /etc/apache2/envvars </strong> modifé le nom d'utilisateur et group du serveur apache.
+donner le nom d'utilisateur, l'utilisateur courant et le group www-data
+
+```
+export APACHE_RUN_USER=user
+export APACHE_RUN_GROUP=www-data
+
+```
+Et ensuite modifier le mot de pass dans le fichier script <strong> mount.sh </strong> et <strong> umount.sh </strong> que se trouvé dans le dossier <strong> /cryptolocker/app/Bash </strong>, donner le mot de pass d'utilisateur que vous avez écrit dans le fichier <strong> /etc/apache2/envers </strong>
+
+```
+echo 'user' | sudo -S
+```
+Ci-dessus le 'user' c'est le mot de passe de l'utilisateur user vous devez changé celui-là.
+
+
+
+## Autorisé lancement des Taches Automatique
+
+En tappant la commande <strong> crontab -e </strong> et ajouter la ligne suivant à la fin du fichier qui s'ouvre automatiquement pour faire fonctionner les taches automatiques.
+```
+* * * * * php /var/www/html/cryptolocker/artisan schedule:run 1>> /dev/null 2>&1
+```
+
+Et puis lancer la commande suivant dans le repertoire <strong> /var/www/html/cryptolocker </strong>
+```
+php artisan schedule:run
+```
+Aller sur le navigateur et connecté-vous au serveur apache sur le port 80
+@ip-machine:80
