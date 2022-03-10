@@ -36,7 +36,9 @@
                                 <form id="rejeter-form" action="{{ route('user.utilisateur-delete' , $user->id) }}" method="post">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $user->id }}">
+                                    @if (Auth::user() != $user )
                                     <button class="btn btn-danger" ><i class="fa fa-trash"></i> Supprimer </button> 
+                                    @endif
                                 </form>
 
                             </div>

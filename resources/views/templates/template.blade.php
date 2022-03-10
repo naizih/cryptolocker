@@ -35,17 +35,14 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{ route('user.accueil') }}"> <i class="fa fa-home"></i> Accueil <span class="sr-only"></span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.config') }}"> <i class="fa fa-cog"></i> Configuration</a>
-            </li>
 
             @if (Auth::check())
             <li class="nav-item">
               <a class="nav-link" href="{{ route('user.utilisateur') }}"> <i class="fa fa-users"></i> Utilisateurs</a>
             </li>
-
+            
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.utilisateur-profile', Auth::user()->id) }}"> <i class="fa fa-user"></i> Profil</a>
+              <a class="nav-link" href="{{ route('user.config') }}"> <i class="fa fa-cog"></i> Configuration</a>
             </li>
             @endif
 
@@ -53,7 +50,7 @@
 
             @if (Route::has('register'))
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('register') }}"> Utilisateurs</a>
+              <a class="nav-link" href="{{ route('register') }}"> Sign up</a>
             </li>
             @endif
 
@@ -68,6 +65,10 @@
               </div>
             @endif
           @else
+
+            <div class="d-flex text-white">
+            <a class="nav-link" href="{{ route('user.utilisateur-profile', Auth::user()->id) }}"> <i class="fa fa-user"></i> Profil</a>
+            </div>
             <div class="d-flex text-white">
               <a form="logout-form" href="{{ route('user.logout') }}" class="btn text-white" 
                     onclick="event.preventDefault(); 
