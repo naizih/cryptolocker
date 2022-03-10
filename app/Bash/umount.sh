@@ -1,2 +1,3 @@
+#!/bin/bash
 
-echo 'user' | sudo -S umount $1
+sudo umount $1
