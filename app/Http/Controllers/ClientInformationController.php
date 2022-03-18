@@ -63,7 +63,7 @@ class ClientInformationController extends Controller
             'nom_entreprise' => 'required',
             'site' => 'required',
             'nom_client' => 'required',
-            'mobile' => 'string|min:8',
+            'mobile' => 'string|min:10',
             'email' => 'required',
         ]);
 
