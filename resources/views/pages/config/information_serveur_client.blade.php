@@ -75,35 +75,35 @@
                     <div class="form-group row">
                         <label for="inputCompany" class="col-sm-2 col-form-label"> <i class="fa fa-building"></i> &nbsp; Nom d'entreprise :</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" name="nom_entreprise" id="inputCompany" placeholder="Nom d'entreprise">
+                        <input type="text" class="form-control" name="nom_entreprise" id="inputCompany" placeholder="Nom d'entreprise" value="{{ old('nom_entreprise') }}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="inputSite" class="col-sm-2 col-form-label"> <i class="fa fa-map-marker"></i> &nbsp; Site (Location) :</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="site" id="inputSite" placeholder="Ville ou sité d'entreprise">
+                            <input type="text" class="form-control" name="site" id="inputSite" placeholder="Ville ou sité d'entreprise" value="{{ old('site') }}">
                         </div>
                     </div>
                     
                     <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label"> <i class="fa fa-user-circle"></i> &nbsp; Responsable (Admin) :</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" name="nom_client" id="inputName" placeholder="Nom du client">
+                        <input type="text" class="form-control" name="nom_client" id="inputName" placeholder="Nom du client" value="{{ old('nom_client') }}">
                         </div>
                     </div>
                 
                     <div class="form-group row">
                         <label for="inputMobile" class="col-sm-2 col-form-label"> <i class="fa fa-phone"></i> &nbsp; Téléphone :</label>
                         <div class="col-sm-8">
-                        <input type="text" class="form-control" name="mobile"  id="inputMobile" placeholder="Numéro de tél">
+                        <input type="text" class="form-control" name="mobile"  id="inputMobile" placeholder="Numéro de tél" value="{{ old('mobile') }}">
                         </div>
                     </div>
                 
                     <div class="form-group row">
                         <label for="inputEmail" class="col-sm-2 col-form-label"><i class="fa fa-envelope"></i> &nbsp; Adresse Mail :</label>
                         <div class="col-sm-8">
-                        <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Adresse Mail">
+                        <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Adresse Mail" value="{{ old('email') }}">
                         </div>
                     </div>
                     <div class="form-group row pt-3">

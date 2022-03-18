@@ -2,25 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Check;
 use Illuminate\Http\Request;
-
-use App\Models\Hash_File_Model;
-Use Carbon\Carbon;     // use this class for date and time
-
 use Illuminate\Support\Facades\DB;      //for using table 
 
-/*
+// importer les modles
+use App\Models\Check;
+use App\Models\Hash_File_Model;
+Use Carbon\Carbon;
 
- $date = "2021-12-16 14:34:31";
-        $n_date =Carbon::now();
-
-        $date_to_nb = Carbon::parse($date);
-
-        $days = $n_date->diffInMinutes($date_to_nb); 
-        dd($days);
-
-*/
 
 class CheckController extends Controller {
 

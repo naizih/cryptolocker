@@ -31,11 +31,11 @@ class Kernel extends ConsoleKernel
     public function schedule(Schedule $schedule)
     {
 
-        $variable_temps = Temps_script::all()->first();     // GET Client email adresse
-        $temps_envoie_srv = $variable_temps->temps_envoie_server_mgmt;
-        $temps_check = $variable_temps->temps_check;
-        //dd($temps_check);
-      
+        $variable_temps = Temps_script::all()->first();                 // récupérer le premier ligne de la table temps_script
+        $temps_envoie_srv = $variable_temps->temps_envoie_server_mgmt;  // affecter la valeur de column d'envoi les données au serveur à la variable temps_envoie_serv
+        $temps_check = $variable_temps->temps_check;                    // affecter la valeur de column temps_check à la variable temps_check
+
+        // schedule des commandes automatique
         $schedule->command('check:minute')->cron('*/'.$temps_check.' * * * *');
         $schedule->command('check:sendtoserver')->cron('*/'.$temps_envoie_srv.' * * * *');
 

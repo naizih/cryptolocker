@@ -4,34 +4,12 @@
 @section('content')
 <section style="min-height: 40vh">
   <div id="app">
-    <!-- utiliser la table accueil-->
-
-    <!-- Pour afficher le tableau de vue.js-->
-    <!--<page-accueil></page-accueil>-->
+    
   </div>
 
     <div class="card p-4">
     <h4 class="display-8"> Affichage du fichier appat </h4>
 
-    <!--
-    @if(Session::get('fail'))
-        <div class="alert alert-danger">
-            {{ Session::get('fail') }}
-        </div>
-    @endif
-    -->
-
-    <!--
-    @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-    @endif
--->
     <hr class="my-1">
 
 

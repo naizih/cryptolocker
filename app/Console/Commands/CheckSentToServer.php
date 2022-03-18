@@ -3,14 +3,14 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Client_information;     // importer Client_information Model
-use App\Models\Hash_File_Model;     // importer le Model Hash_File_Model
-use App\Models\Temps_script;     // importer Client_information Model
-use App\Models\info_serveur_mgmt;
-Use Carbon\Carbon;     // Importer Model for date and time
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Client_information;      // importer le modèle Client_information
+use App\Models\Hash_File_Model;         // importer le modèle Hash_File_Model
+use App\Models\Temps_script;            // importer le modèle temps_script
+use App\Models\info_serveur_mgmt;       // importer le modèle info_serveur_mgmt
+Use Carbon\Carbon;                      // Importer le modèle pour date et l'heure
 
 class CheckSentToServer extends Command
 {
@@ -45,36 +45,33 @@ class CheckSentToServer extends Command
      */
     public function handle()
     {
+        // le fonctionnement de cette fonction est d'envoyer un alert si 
+        // la variable Trois_check_not_ok est trois fois plus que la variable
+        // de lancement de script pour checker les fichiers il va envoyer 
+        // une alerte dans les données qu'il envoie au serveur management.
+
         $file_result = [];  // collection de resultat de check
-        
-        //$get_client_email = Client_information::select('email')->first();     // GET Client email adresse
-        $client = Client_information::all()->first();
-        $variable_temps = Temps_script::all()->first();     // GET Client email adresse
-        $data = Hash_File_Model::all();
-        $SRV_PRTG = info_serveur_mgmt::first();
 
-        $temps_check = $variable_temps->temps_check;        // GET temps pour envoyer un alert
+        $client = Client_information::all()->first();       // récupérer le premier ligne de la table clietn_information
+        $variable_temps = Temps_script::all()->first();     // récupérer le premier ligne de la table temps_script
+        $data = Hash_File_Model::all();                     // récupérer tous les données de la table de hash_file_models
+        $SRV_PRTG = info_serveur_mgmt::first();             // récupérer le premier ligne de la table info_serveur_mgmt
 
+        $temps_check = $variable_temps->temps_check;        // récupérer le valeurs de temps_check ( le valeurs de temps de lancement de script pour checker tous les ficheirs)
 
-
-        //$ind = 0;
-        // we send data if check result is good or not 
-        // we send alert in data if Trois_check_not_ok is true
+        // Boucle tourne le nombre de fois que le fichier existe.
         foreach ($data as $index => $file){
-            $alert = false;     // variable pour savoir coté serveur management si il y'a eu un alert ou pas 
-            $date_last_not_ok = $file->Trois_check_not_ok;   // date de dernier Trois_check_not_ok
-            $string_date = carbon::parse($date_last_not_ok);
-            $diff_minute = carbon::now()->diffInMinutes($string_date);     // difference entre le date actuelle est le date de variable Trois_check_not_ok
+            $alert = false;                                             // variable pour savoir coté serveur management si il y'a eu un alert ou pas 
+            $date_last_not_ok = $file->Trois_check_not_ok;              // récupérer la dernière valeur de variable Trois_check_not_ok
+            $string_date = carbon::parse($date_last_not_ok);            // changer le format de date.
+            $diff_minute = carbon::now()->diffInMinutes($string_date);  // difference entre le date actuelle est le date de variable Trois_check_not_ok
             
-           
-
-            // if diff() entre le date actuel est le data de Trois_check_not_ok est > temps_check (c'est la temps enregistré dans la base de données)
+            // variable pour checker si la différence entre la date actuelle est la date de trois_check_not_ok
             if ($diff_minute > ( 3 * intval($temps_check)) ){
                 $alert = true;
             }
 
-            //$ind = $ind + $index;
-
+            // Mettre tous les données dans le tableau
             $file_result[] = [
                 //information de client
                 'nom_entreprise' =>  $client->nom_entreprise,
@@ -90,32 +87,11 @@ class CheckSentToServer extends Command
                 'last_check' => $file->date_du_dernier_check,
                 'alert' => $alert
             ];
-
-
-            
         }
 
-
-        
-        //dd($file_result);
-
         $response = HTTP::post($SRV_PRTG->IP_DNS.'/api/resultat_check', $file_result);
-        //$request = $client->post('http://192.168.141.174:81/api/try')->addPostFiles(['file' => $file_result]);
-        //$request->send(); 
-
-        //curl -d "{'info' { 'client_email':'hello@gmail.com', 'file_name':'appat.txt', 'file_path':'/mnt/partage1/Drive_client', 'check_result': 'NOT OK', 'last_check':'2021-12-17 15:29:02', 'alert':'true'}}" -X POST http://192.168.141.174:81/api/resultat_check
-        //curl -d @json_test_data.json  -H "Content-Type: application/json"  http://192.168.141.174:81/api/resultat_check
-
-
-
-
-        //return $post->json();
-        //dd($response);
-        
-        //$response = $post;
         $this->info($response);
 
-        //$this->info('Le resultat de check est bien envoyer au serveur management.');
         //return Command::SUCCESS;
     }
 }

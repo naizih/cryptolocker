@@ -17,33 +17,17 @@ class HashFileModelController extends Controller
 
 
     public function index() {
-
-
-        $data = Hash_File_Model::all();
-        $first_created_user = User::first();
+        $data = Hash_File_Model::all();         // récupérer tous les données présentes dans le table de hash_file_models
+        $first_created_user = User::first();    // récupérer les information de premier utilisateur crée dans l'application.
 
         return view('accueil', ['table_fichier_hash' => $data, 'utilisateur' => $first_created_user]);
     }
 
 
-    // fonction pour afficher tous les données qui sont dans la base de données 
-    /*
-    public function api_datashow(){
-        $data = Hash_File_Model::all();
-        //return response()->json($data);
-
-        return response()->json([
-            'fichiers_hash' => $data
-        ], Response::HTTP_OK);
-    }
-    */
-   
-
-
     //fonction  pour choisir le fichier qui va etre check
     public function select_file( Request $folder ){
-        //$dir = '/home/user/cryptolocker_V1.3/cry  ptolocker/storage/app/';      // l'endroit de montage de partage
-        $dir = storage_path().'/app';
+
+        $dir = storage_path().'/app';       // c'est l'endroit où les dossier partages (drive) sont montée 
 
         // si le variable file est present dans le URL
         if(isset($_GET['file'])){ $dir = $dir.$_GET['file']; }
@@ -55,7 +39,8 @@ class HashFileModelController extends Controller
                 if ($dh = opendir($dir)) { // si il y a un autre dossier dans le dossier où on est
                     while (($file = readdir($dh)) !== false) {
                         // le . et .. sont des directory par default dans linux
-                        if($file === '.' || $file === '..' || $file === '.gitignore') { continue; }
+                        //if($file === '.' || $file === '..' || $file === '.gitignore') { continue; }
+                        if ($file[0] == '.') { continue; }      // ne pas afficher les dossiers/fichiers cachier ainsi le dossier . et .. qui sont par défault dans l'environement linux.
 
                         // si on clique sur le fichier 
                         if(filetype($dir.'/'.$file) === 'file'){
@@ -80,8 +65,6 @@ class HashFileModelController extends Controller
 
 
 
-
-     //Retourner un affichage avec form
      //The create method should return a view with a form.
     public function create() {
         //
@@ -154,7 +137,6 @@ class HashFileModelController extends Controller
         }
         return redirect('/accueil')->with('error', "Les informations de fichier est supprimer avec success.");
         //return response("vous n'avez pas selectionée aucune ligne pour supprimer ! <br> Pour aller à l'accueil cliquer <a href='/'> ici .</a>");
-       // return redirect('/');
     }
 
 

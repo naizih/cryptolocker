@@ -37,13 +37,7 @@ class TempsScriptController extends Controller {
     public function update(Request $request, Temps_script $temps)
     {
         // on n'a pas besoin de validation de input.
-        /*
-        $validator = $request->validate([
-            'temps_check' => 'required',
-            'server_time' => 'required',
-        ]);
-        */
-
+      
         $temps->update([
             'temps_check' =>  request('temps_check'),
             'temps_envoie_server_mgmt' =>  request('server_time'),

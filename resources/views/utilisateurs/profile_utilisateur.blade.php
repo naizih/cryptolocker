@@ -33,16 +33,7 @@
                         <a href="{{route('user.modifier-utilisateur', $utilisateur->id)}}" class="btn btn-secondary"> Modifier </a>
                     </div>
                 </div>
-
-                <!--
-                <div class="row pt-3">
-                    <span class="col-sm-4 col-form-label"> &nbsp;</span>
-                    <div class="col-sm">
-                        <a class="btn btn-outline-secondary" href="#"> Modifier </a>
-                    </div>
-                </div>
-                -->
-
+                
             </div>
         </div>
     </div>

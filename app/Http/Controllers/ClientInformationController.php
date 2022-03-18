@@ -56,15 +56,14 @@ class ClientInformationController extends Controller
     }
 
     
-
     public function store(Request $request, Client_information $client ) {
         //
         $validator = $request->validate([
             'nom_entreprise' => 'required',
             'site' => 'required',
             'nom_client' => 'required',
-            'mobile' => 'string|min:10',
-            'email' => 'required',
+            'mobile' => 'required|digits:10',
+            'email' => 'required|string|email',
         ]);
 
         
@@ -77,30 +76,6 @@ class ClientInformationController extends Controller
                 'email' => $request->email,
             ]);
         }
-
-/*
-        $file_result[] = [
-            //information de client
-            'nom_entreprise' =>  $request->nom_entreprise,
-            'site' =>  $request->site,
-            'nom_client' => $request->nom_client,
-            'mobile' => $request->mobile,
-            'client_email' => $request->email,
-            
-            // information de fichier
-            'file_name' => '',
-            'file_path' => '',
-            'check_result' => '',
-            'last_check' => '',
-            'alert' => false
-        ];
-*/
-
-        /*
-        // On peut utiliser ce methode, ça marche aussi
-        $server_ip = info_serveur_mgmt::first()->IP;
-        $response = HTTP::post($server_ip.'/api/resultat_check', $file_result);
-        */
 
 
         $server_ip = info_serveur_mgmt::first()->IP_DNS;      
@@ -117,7 +92,6 @@ class ClientInformationController extends Controller
         $response = $post->json();
         return redirect('/config')->with('message', "Le client est ajouter avec success dans le serveur client ".$response['message']);
 
-        //return redirect('/config')->with('message', "Le client a été ajouté avec success! et ".$response['message']);
     }
 
 
