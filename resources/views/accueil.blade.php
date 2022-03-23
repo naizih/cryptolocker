@@ -8,7 +8,7 @@
   </div>
 
     <div class="card p-4">
-    <h4 class="display-8"> Affichage du fichier appat </h4>
+    <h4 class="display-8"> Fichier appat </h4>
 
     <hr class="my-1">
 
