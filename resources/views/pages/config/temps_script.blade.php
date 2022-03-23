@@ -30,7 +30,7 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label"> Envoyer les données au serveur mgmt</label>
             <div class="col-sm-8">
-                <p> Envoyer les informations de Check au serveur maangement tous les <strong>
+                <p> Envoyer les informations de verification au serveur maangement tous les <strong>
                     @if (!empty($temps['temps_envoie_server_mgmt']))
                     <span class="text-primary"> {{$temps['temps_envoie_server_mgmt']}} </span>
                     @else
