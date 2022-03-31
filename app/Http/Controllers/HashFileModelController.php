@@ -54,8 +54,8 @@ class HashFileModelController extends Controller
                     // fermer directory
                     closedir($dh);
                 }
-                return $result;
             }
+            return $result;
         }
 
         // variable qui appele à fonction iter_file
