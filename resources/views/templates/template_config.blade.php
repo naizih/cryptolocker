@@ -16,11 +16,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ Route::current()->getName() == 'user.config-script-time' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-script-time')}}" role="tab" data-toggle="tab"> Temps de scripts </a>
+                <a class="nav-link {{ Route::current()->getName() == 'user.config-script-time' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-script-time')}}" role="tab" data-toggle="tab"> Planification </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ Route::current()->getName() == 'user.config-info-srv-partage' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-info-srv-partage')}}" role="tab" data-toggle="tab"> Info du serveur partage </a>
+                <a class="nav-link {{ Route::current()->getName() == 'user.config-info-srv-partage' ? 'active text-white bg-dark bg-gradient' : 'text-dark' }}" aria-controls="home" href="{{route('user.config-info-srv-partage')}}" role="tab" data-toggle="tab"> Configuration  partage </a>
             </li>
             
         </ul>

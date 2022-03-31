@@ -7,7 +7,7 @@
 
 <div class="card">
         <div class="card-header">
-                <h1>Serveur de dossier Partagé</h1>
+                <h2> Configuration  Partage</h2>
         </div>
 
         <div class="card-body">

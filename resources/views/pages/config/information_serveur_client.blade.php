@@ -8,16 +8,6 @@
     </div>
     <div class="card-body">
         
-        <div class="btn-toolbar mb-3">
-            <div class="btn-group">
-                <form action="/connected" method="get">
-                    @csrf
-                    <button type="submit" name="connected" class="btn btn-primary">connected ?</div>
-                    <input type = "hidden" name = "_token" value="{{Session::token() }}">
-                </form>
-            </div>
-        </div>
-
         @if($information_client->count() > 0)
             @foreach($information_client as $info)
                 <div class="input_style mx-4">
