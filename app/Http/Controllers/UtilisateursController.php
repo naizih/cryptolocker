@@ -23,7 +23,8 @@ class UtilisateursController extends Controller
         if (Auth::user()->email == $users->first()->email ){
             return view('utilisateurs.afficher_utilisateurs', ['users' => $users]);
         }else{
-            return redirect()->back()->with("fail", "Vous n'avez pas le droit.");
+            //return abort(401);
+            return redirect()->back()->with("error", "Vous n'avez pas le droit.");
         }
     }
 

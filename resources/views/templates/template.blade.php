@@ -37,6 +37,7 @@
             </li>
 
             @if (Auth::check())
+            
             <li class="nav-item">
               <a class="nav-link" href="{{ route('user.utilisateur') }}"> <i class="fa fa-users"></i> Utilisateurs</a>
             </li>

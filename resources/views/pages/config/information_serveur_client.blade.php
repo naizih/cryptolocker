@@ -26,7 +26,7 @@
                     </div>
                     
                     <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label"> <i class="fa fa-user-circle"></i> &nbsp; Responsable (Admin) :</label>
+                        <label for="inputName" class="col-sm-2 col-form-label"> <i class="fa fa-user-circle"></i> &nbsp; Responsable(Admin) : </label>
                         <div class="col-sm-8">
                         <p class="text-dark">{{$info->nom_client}}</p>
                         </div>
@@ -77,7 +77,7 @@
                     </div>
                     
                     <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label"> <i class="fa fa-user-circle"></i> &nbsp; Responsable (Admin) :</label>
+                        <label for="inputName" class="col-sm-2 col-form-label"> <i class="fa fa-user-circle"></i> &nbsp; Responsable(Admin) :</label>
                         <div class="col-sm-8">
                         <input type="text" class="form-control" name="nom_client" id="inputName" placeholder="Nom du client" value="{{ old('nom_client') }}">
                         </div>
